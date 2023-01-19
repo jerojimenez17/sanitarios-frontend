@@ -1,0 +1,153 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+demo-simple-select-helper{
+  justify-content: center;
+}
+
+.App-link {
+  color: #61dafb;
+}
+/* a select list placed in the top right corner of the screen */
+.select-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.products-cart{
+  min-height: 63vh;
+}
+.logo{
+  display:none;
+}
+.img-logo{
+  display:none;
+  width: 100%;
+  height:13vh;
+}
+.date-customer-container{
+  margin-left: 2rem;
+}
+.date{
+  font-weight: bolder;
+  display:none;
+}
+
+.cart-row{
+  height: 0.5rem;
+
+}
+
+.client-name:hover{
+  color: #61dafb;
+
+}
+.header-grid:hover{
+  color: #61dafb;
+
+
+}
+.search-select-container{
+  max-height: 4rem;
+  min-height: auto;
+  
+}
+.cart{
+  min-height: 72vh;
+}
+.cart-container{
+  max-height: 400px;
+}
+.cart-row:nth-child(even){
+  
+  background-color: #a2e1f2;
+}
+@page {
+  size: A4;
+  margin: 11mm 14mm 14mm 14mm;
+}
+@media print {
+  .date-customer-container{
+    margin: 30px 0 0 0 ;
+  }
+  .logo{
+    display: flex;
+    width: 50%;
+    margin-top: 20px;
+  }
+  .img-logo{
+    display: inline;
+  }
+  .cart{
+    min-height:90vh;
+    position: relative;
+    justify-content: space-between;
+  }
+  .date{
+    
+  display:inline;
+  }
+  .container-cart{
+    
+    height:70vh;
+  }
+  .cart-total-container{
+    border: #282c34 solid;
+    height: 100px;
+    page-break-inside: avoid;
+    page-break-after: avoid;
+    align-items: center;
+    justify-content: space-between;
+
+    flex-wrap: wrap-reverse;
+  }
+  .cart-total{
+
+    display:flex;
+    margin: 20px 20px 0px 0;
+    
+    justify-content: space-between;
+    align-items: center;
+    gap: 400px;
+    page-break-inside: avoid;
+    page-break-after: avoid;
+    
+ }
+  .cart-container{
+    max-height: fit-content;
+    min-height: fit-content;
+    display: flex;
+  }
+  .products-cart{
+    min-height: 60vh;
+  }
+}
+@media screen and (max-width:800px) {
+  .menu-button{
+    display: none;
+  }
+}
