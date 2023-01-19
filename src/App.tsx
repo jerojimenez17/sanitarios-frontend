@@ -1,6 +1,6 @@
 import "./App.css";
 import SearchAppBar from "./components/AppBar/SearchAppBar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import LeftDrawer from "./components/LeftDrawer";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Products from "./Pages/Products";
