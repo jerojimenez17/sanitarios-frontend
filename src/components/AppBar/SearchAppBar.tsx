@@ -70,7 +70,9 @@ export default function SearchAppBar({
   openCart,
 }: SearchAppBarProps) {
   const { cartState } = useContext(CartContext);
-
+  React.useEffect(() => {
+    console.log(page);
+  });
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="inherit">
@@ -101,7 +103,7 @@ export default function SearchAppBar({
               <Link
                 href="products"
                 underline="none"
-                color={page === "products" ? "primary" : "inherit"}
+                color={page === "counts" ? "inherit" : "primary"}
                 onClick={() => {
                   handlePageChange("products");
                 }}
@@ -116,7 +118,7 @@ export default function SearchAppBar({
             </Box>
             <Box
               display="flex"
-              borderBottom={page === "products" ? "none" : "3px solid blue"}
+              borderBottom={page === "counts" ? "3px solid blue" : "none"}
               alignContent="center"
               textAlign="center"
             >

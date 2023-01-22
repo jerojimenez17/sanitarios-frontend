@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CartContext } from "./context/CartContext";
 
 import {
@@ -19,17 +19,7 @@ import PrinteableProducts from "../PrinteableProducts";
 // import JimenezLogo from "../../assets/logo";
 
 function Cart() {
-  const { cartState, removeAll, discount, total, clientName } =
-    useContext(CartContext);
-  const [discountState, setDiscountState] = useState(0);
-  useEffect(() => {
-    discount(discountState);
-  }, [discount, discountState]);
-
-  useEffect(() => {
-    total();
-    discount(discountState);
-  }, [cartState.products, discount, discountState, total]);
+  const { cartState, removeAll, clientName } = useContext(CartContext);
 
   const handleDeleteAll = () => {
     removeAll();
@@ -42,24 +32,10 @@ function Cart() {
   //   ,500);
   // },[handlePrint]);
 
-  const handleDiscount = (e: any) => {
-    if (e.key === "Enter") {
-      if (e.target.value === "" || e.target.value === "0") {
-        setDiscountState(0);
-      } else {
-        setDiscountState(e.target.value);
-      }
-      discount(discountState);
-    }
-  };
   const [edit, setEdit] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState(false);
   const [openCustomerModal, setOpenCustomerModal] = useState(false);
-  const handleClient = (e: any) => {
-    if (e.key === "Enter") {
-      clientName(e.target.value);
-    }
-  };
+
   const collectionRef = collection(db, "sales");
   const handleSaveSale = () => {
     console.log(cartState.products.length);

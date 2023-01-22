@@ -86,7 +86,7 @@ const Row = ({ key, row }: rowProps) => {
           <Tooltip title={"Imprimir"}>
             <IconButton
               onClick={() => {
-                handlePrint();
+                if (!open) handlePrint();
               }}
               color="primary"
             >
@@ -96,8 +96,8 @@ const Row = ({ key, row }: rowProps) => {
           <Tooltip title="Borrar">
             <IconButton
               color="error"
-              onClick={() => {
-                setOpenDeleteModal(!openDeleteModal);
+              onClickCapture={() => {
+                setOpenDeleteModal(false);
               }}
             >
               <Delete />

@@ -21,7 +21,6 @@ interface ProductProps {
   openCart: boolean;
 }
 const Products = ({ openCart }: ProductProps) => {
-  const [rowsPerPage, setRowsPerPage] = useState(15);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [allProductsFB, setAllProductsFB] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -32,10 +31,6 @@ const Products = ({ openCart }: ProductProps) => {
       setAllProducts(productsWS)
     );
   }, [productsListName]);
-
-  useEffect(() => {
-    setProducts(allProducts.slice(0, rowsPerPage));
-  }, [allProducts, rowsPerPage]);
 
   // const loadMore = () => {
   //   if (rowsPerPage + 10 < allProducts.length) {
@@ -115,20 +110,7 @@ const Products = ({ openCart }: ProductProps) => {
             <MenuItem value="ciardi">Ciardi</MenuItem>
           </Select>
         </FormControl>
-        <Tooltip title={"Imprimir"}>
-          <IconButton
-            onClick={() => {
-              handleSaveProducts();
-            }}
-            sx={{
-              "&:hover": {
-                backgroundColor: "primary.light",
-              },
-            }}
-          >
-            <Refresh />
-          </IconButton>
-        </Tooltip>
+
         {/* </Box>
       </Box> */}
       </Box>
