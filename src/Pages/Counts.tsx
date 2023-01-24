@@ -9,22 +9,30 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { DocumentData } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { fetchSales } from "../services/FireBase";
+import { deleteDoc, doc, DocumentData } from "firebase/firestore";
+import React, { useCallback, useEffect, useState } from "react";
+import { db, fetchSales } from "../services/FireBase";
 import Row from "../components/Row";
 
 const Counts = () => {
   const [sales, setsales] = useState<DocumentData[] | null>([]);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
-  useEffect(() => {
-    fetchSales().then((data: DocumentData[] | null) => {
-      console.log(data);
-      setsales(data);
-    });
-    console.log(sales);
+  const handleOpenDeleteModal = () => {
+    setOpenDeleteModal(!openDeleteModal);
+  };
+
+  const handleDelete = useCallback((row: DocumentData) => {
+    deleteDoc(doc(db, "sales", row.id));
   }, []);
-
+  useEffect(() => {
+    if (!openDeleteModal) {
+      fetchSales().then((data: DocumentData[] | null) => {
+        console.log(data);
+        setsales(data);
+      });
+    }
+  }, [openDeleteModal]);
   return (
     <Box mt={2} ml="2rem" mr="2rem" maxWidth={"50"}>
       <TableContainer component={Paper}>
@@ -59,7 +67,13 @@ const Counts = () => {
             {sales
               ?.sort((a, b) => a.date - b.date)
               .map((row) => (
-                <Row key={row.name} row={row} />
+                <Row
+                  key={row.id}
+                  row={row}
+                  handleDeleteDoc={handleDelete}
+                  handleOpenDeleteModal={handleOpenDeleteModal}
+                  openDeleteModal={openDeleteModal}
+                />
               ))}
           </TableBody>
         </Table>

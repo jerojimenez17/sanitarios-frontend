@@ -19,7 +19,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { deleteDoc, doc, DocumentData } from "firebase/firestore";
+import { DocumentData } from "firebase/firestore";
 import React, { useRef, useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -31,18 +31,23 @@ import { db } from "../services/FireBase";
 interface rowProps {
   key: string;
   row: DocumentData;
+  handleDeleteDoc: (doc: DocumentData) => void;
+  handleOpenDeleteModal: () => void;
+  openDeleteModal: boolean;
 }
 
-const Row = ({ key, row }: rowProps) => {
+const Row = ({
+  key,
+  row,
+  handleDeleteDoc,
+  handleOpenDeleteModal,
+  openDeleteModal,
+}: rowProps) => {
   const [open, setOpen] = useState(false);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const ref = useRef(null);
   const handlePrint = useReactToPrint({
     content: () => ref.current,
   });
-  const handleDelete = (row: DocumentData) => {
-    deleteDoc(doc(db, "sales", row.id));
-  };
   return (
     <>
       <TableRow key={key} sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -86,7 +91,12 @@ const Row = ({ key, row }: rowProps) => {
           <Tooltip title={"Imprimir"}>
             <IconButton
               onClick={() => {
-                if (!open) handlePrint();
+                if (!open) {
+                  setOpen(!open);
+                }
+                setTimeout(() => {
+                  handlePrint();
+                }, 300);
               }}
               color="primary"
             >
@@ -96,8 +106,8 @@ const Row = ({ key, row }: rowProps) => {
           <Tooltip title="Borrar">
             <IconButton
               color="error"
-              onClickCapture={() => {
-                setOpenDeleteModal(false);
+              onClick={() => {
+                handleOpenDeleteModal();
               }}
             >
               <Delete />
@@ -182,7 +192,8 @@ const Row = ({ key, row }: rowProps) => {
                 variant="contained"
                 color="error"
                 onClick={() => {
-                  handleDelete(row);
+                  handleDeleteDoc(row);
+                  handleOpenDeleteModal();
                 }}
               >
                 Borrar
@@ -193,7 +204,7 @@ const Row = ({ key, row }: rowProps) => {
                 variant="outlined"
                 color="primary"
                 onClick={() => {
-                  setOpenDeleteModal(!openDeleteModal);
+                  handleOpenDeleteModal();
                 }}
               >
                 Cancelar
