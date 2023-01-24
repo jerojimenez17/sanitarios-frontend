@@ -132,7 +132,10 @@ const PrinteableProducts = ({
           )}
           <Box mt={2}>
             <Typography variant="h5" color="primary" mr={2} ml={1}>
-              Total: ${cartState.total.toFixed()}
+              Total: $
+              {cartState.products
+                .reduce((acc, cur) => acc + cur.price * cur.amount, 0)
+                .toFixed()}
             </Typography>
             {discountState !== 0 && (
               <Typography
@@ -141,7 +144,19 @@ const PrinteableProducts = ({
                 color="primary"
                 mr={1}
               >
-                Total con Descuento: ${cartState.totalWithDiscount.toFixed()}
+                Total con Descuento: $
+                {(
+                  cartState.products.reduce(
+                    (acc, cur) => acc + cur.price * cur.amount,
+                    0
+                  ) -
+                  cartState.products.reduce(
+                    (acc, cur) => acc + cur.price * cur.amount,
+                    0
+                  ) *
+                    discountState *
+                    0.01
+                ).toFixed()}
               </Typography>
             )}
           </Box>
