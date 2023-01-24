@@ -16,10 +16,10 @@ import Row from "../components/Row";
 
 const Counts = () => {
   const [sales, setsales] = useState<DocumentData[] | null>([]);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState("");
 
-  const handleOpenDeleteModal = () => {
-    setOpenDeleteModal(!openDeleteModal);
+  const handleOpenDeleteModal = (rowId: string) => {
+    setOpenDeleteModal(rowId);
   };
 
   const handleDelete = useCallback((row: DocumentData) => {

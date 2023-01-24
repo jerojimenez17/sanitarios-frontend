@@ -32,8 +32,8 @@ interface rowProps {
   key: string;
   row: DocumentData;
   handleDeleteDoc: (doc: DocumentData) => void;
-  handleOpenDeleteModal: () => void;
-  openDeleteModal: boolean;
+  handleOpenDeleteModal: (rowId: string) => void;
+  openDeleteModal: string;
 }
 
 const Row = ({
@@ -107,7 +107,7 @@ const Row = ({
             <IconButton
               color="error"
               onClick={() => {
-                handleOpenDeleteModal();
+                handleOpenDeleteModal(row.id);
               }}
             >
               <Delete />
@@ -181,7 +181,7 @@ const Row = ({
           </Collapse>
         </TableCell>
       </TableRow>
-      <Dialog open={openDeleteModal}>
+      <Dialog open={openDeleteModal === row.id}>
         <DialogTitle>
           Seguro que desea eliminar la cuenta de {row.client}
         </DialogTitle>
@@ -193,7 +193,7 @@ const Row = ({
                 color="error"
                 onClick={() => {
                   handleDeleteDoc(row);
-                  handleOpenDeleteModal();
+                  handleOpenDeleteModal("");
                 }}
               >
                 Borrar
@@ -204,7 +204,7 @@ const Row = ({
                 variant="outlined"
                 color="primary"
                 onClick={() => {
-                  handleOpenDeleteModal();
+                  handleOpenDeleteModal("");
                 }}
               >
                 Cancelar
