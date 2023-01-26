@@ -7,8 +7,9 @@ import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useContext } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Badge, Link } from "@mui/material";
+import { Badge } from "@mui/material";
 import { CartContext } from "../cart/context/CartContext";
+import { Link } from "react-router-dom";
 
 // const Search = styled("div")(({ theme }) => ({
 //   position: "relative",
@@ -101,16 +102,15 @@ export default function SearchAppBar({
               alignItems="center"
             >
               <Link
-                href="products"
-                underline="none"
-                color={page === "counts" ? "inherit" : "primary"}
+                to="products"
+                style={{ textDecoration: "none" }}
                 onClick={() => {
                   handlePageChange("products");
                 }}
               >
                 <Typography
                   variant="h6"
-                  color={page === "products" ? "primary" : "inherit"}
+                  color={page === "products" ? "primary" : "black"}
                 >
                   Productos
                 </Typography>
@@ -123,14 +123,18 @@ export default function SearchAppBar({
               textAlign="center"
             >
               <Link
-                color={page === "counts" ? "primary" : "inherit"}
-                href="counts"
-                underline="none"
+                style={{ textDecoration: "none" }}
+                to="counts"
                 onClick={() => {
                   handlePageChange("counts");
                 }}
               >
-                <Typography variant="h6">Cuentas</Typography>
+                <Typography
+                  variant="h6"
+                  color={page === "counts" ? "primary" : "black"}
+                >
+                  Cuentas
+                </Typography>
               </Link>
             </Box>
           </Box>

@@ -40,17 +40,17 @@ function App() {
     <div className="App">
       <ThemeProvider theme={theme}>
         <CartProvider>
-          <SearchAppBar
-            page={page}
-            handlePageChange={setPage}
-            openCart={openCart}
-            setOpenCart={setOpenCart}
-            openDrawer={handleOpenDrawer}
-            handleSearchText={setSearchText}
-            searchText={searchText}
-          />
-          <LeftDrawer open={openDrawer} onClose={handleOpenDrawer} />
           <BrowserRouter>
+            <SearchAppBar
+              page={page}
+              handlePageChange={setPage}
+              openCart={openCart}
+              setOpenCart={setOpenCart}
+              openDrawer={handleOpenDrawer}
+              handleSearchText={setSearchText}
+              searchText={searchText}
+            />
+            <LeftDrawer open={openDrawer} onClose={handleOpenDrawer} />
             <Routes>
               <Route
                 path="/products"
