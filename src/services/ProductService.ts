@@ -2,7 +2,7 @@ import axios from "axios";
 
 const fetchProducts = (route: string) => {
   return axios
-    .get("https://https://sanitarios-backend.onrender.com/api/productos/" + route, {
+    .get("https://sanitarios-backend.onrender.com/api/productos/" + route, {
       headers: {
         "Content-Type": "application/json",
       },
