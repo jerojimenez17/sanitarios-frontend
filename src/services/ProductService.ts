@@ -2,7 +2,7 @@ import axios from "axios";
 
 const fetchProducts = (route: string) => {
   return axios
-    .get("https://pacific-gorge-77207.herokuapp.com/api/productos/" + route, {
+    .get("https://sanitarios-backend-production-9972.up.railway.app/api/productos/" + route, {
       headers: {
         "Content-Type": "application/json",
       },
