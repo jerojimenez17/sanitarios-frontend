@@ -77,7 +77,7 @@ export const less = async (document: CartState, productToUpdate: Product) => {
           product.id === productToUpdate.id &&
           product.description === productToUpdate.description
       );
-      products.
+      
     });
   } catch (err) {
     console.error(err);
