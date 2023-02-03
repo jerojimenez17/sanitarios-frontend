@@ -17,4 +17,24 @@ const fetchProducts = (route: string) => {
     });
 };
 
+export const fetchProductById = (id: string) => {
+  const listName = id.split("-")[0];
+  return axios
+    .get(
+      `https://pacific-gorge-77207.herokuapp.com/api/${listName}//id?=` + id,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.error(error);
+      return [];
+    });
+};
+
 export default fetchProducts;

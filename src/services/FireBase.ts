@@ -12,9 +12,12 @@ import {
   arrayUnion,
   addDoc,
   serverTimestamp,
+  runTransaction,
+  Transaction,
 } from "firebase/firestore";
 import CartState from "../models/CartState";
 import Product from "../models/Product";
+import { FirebaseAdapter } from "../models/FirebaseAdapter";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -39,31 +42,45 @@ export const db = getFirestore(app);
 
 export const fetchSales = async () => {
   const collectionRef = collection(db, "sales");
-  let sales: DocumentData[] = [];
+  let sales: CartState[] = [];
   const docSnap = await getDocs(collectionRef);
-  let s: CartState | DocumentData = {
-    id: 0,
+
+  let s: CartState = {
+    id: "",
     products: [],
     client: "",
     total: 0,
     totalWithDiscount: 0,
+    date: new Date(),
   };
-  docSnap.docs.forEach((doc) => {
-    console.log(doc.data());
-    s = doc.data();
-    s.id = doc.id;
-    console.log(s.id);
-    s.products = doc.data().products;
-    s.client = doc.data().client;
-    s.total = doc.data().total;
-    s.totalWithDiscount = doc.data().total4WithDiscount;
-    sales.push(s);
-    console.log(sales);
-  });
-  if (sales.length > 0) {
-    return sales;
+  const adapterDocs: CartState[] = FirebaseAdapter.fromDocumentDataArray(
+    docSnap.docs
+  );
+  if (adapterDocs.length > 0) {
+    return adapterDocs;
   } else {
     return null;
+  }
+};
+export const less = async (document: CartState, productToUpdate: Product) => {
+  try {
+    const docRef = doc(db, "sales", document.id);
+    await runTransaction(db, async (transaction) => {
+      const doc = await transaction.get(docRef);
+      if (!doc.exists()) {
+        throw "document doesn't exist";
+      }
+      const formatedDoc = FirebaseAdapter.fromDocumentData(doc);
+      const products = formatedDoc.products;
+      const newProduct = formatedDoc.products.find(
+        (product) =>
+          product.id === productToUpdate.id &&
+          product.description === productToUpdate.description
+      );
+      products.
+    });
+  } catch (err) {
+    console.error(err);
   }
 };
 

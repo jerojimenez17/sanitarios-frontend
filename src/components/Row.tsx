@@ -27,11 +27,12 @@ import Product from "../models/Product";
 import { Delete, Print } from "@mui/icons-material";
 import { useReactToPrint } from "react-to-print";
 import { db } from "../services/FireBase";
+import CartState from "../models/CartState";
 
 interface rowProps {
   key: string;
-  row: DocumentData;
-  handleDeleteDoc: (doc: DocumentData) => void;
+  row: CartState;
+  handleDeleteDoc: (doc: CartState) => void;
   handleOpenDeleteModal: (rowId: string) => void;
   openDeleteModal: string;
 }
@@ -70,16 +71,14 @@ const Row = ({
           </Typography>
         </TableCell>
         <TableCell align="center">
-          <Typography variant="h6">
-            {new Date(row.date.seconds * 1000).toLocaleDateString()}
-          </Typography>
+          <Typography variant="h6">{row.date.toLocaleDateString()}</Typography>
         </TableCell>
 
         <TableCell align="center">
           <Typography variant="h6">
             $
-            {row.products
-              .reduce(
+            {row?.products
+              ?.reduce(
                 (acc: number, cur: { price: number; amount: number }) =>
                   acc + cur.price * cur.amount,
                 0
@@ -134,7 +133,7 @@ const Row = ({
                 </Typography>
                 <Box display="flex" justifyContent="flex-end" m={2}>
                   <Typography variant="h6">
-                    {new Date(row.date.seconds * 1000).toLocaleDateString()}
+                    {row.date.toLocaleDateString()}
                   </Typography>
                 </Box>
               </Box>
@@ -150,7 +149,7 @@ const Row = ({
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.products.map((product: Product) => (
+                  {row?.products?.map((product: Product) => (
                     <TableRow key={product.id}>
                       <TableCell align="right">{product.cod}</TableCell>
                       <TableCell align="right">{product.description}</TableCell>
@@ -167,8 +166,8 @@ const Row = ({
                 <Box display="flex" justifyContent="flex-end" width="100%">
                   <Typography variant="h5">
                     Total:
-                    {row.products
-                      .reduce(
+                    {row?.products
+                      ?.reduce(
                         (acc: number, cur: { price: number; amount: number }) =>
                           acc + cur.price * cur.amount,
                         0
