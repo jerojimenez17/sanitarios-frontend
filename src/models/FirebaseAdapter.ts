@@ -10,7 +10,7 @@ export class FirebaseAdapter {
     data: DocumentData,
     dataId: string
   ): CartState {
-    console.log(dataId);
+    console.log(data.date);
     return {
       id: dataId,
       products: data.products,
