@@ -70,7 +70,7 @@ export const less = async (document: CartState, productToUpdate: Product) => {
       if (!doc.exists()) {
         throw "document doesn't exist";
       }
-      const formatedDoc = FirebaseAdapter.fromDocumentData(doc);
+      const formatedDoc = FirebaseAdapter.fromDocumentDataArray(doc);
       const products = formatedDoc.products;
       const newProduct = formatedDoc.products.find(
         (product) =>
