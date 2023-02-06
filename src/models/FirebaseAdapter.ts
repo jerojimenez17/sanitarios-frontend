@@ -3,12 +3,13 @@ import CartState from "./CartState";
 
 export class FirebaseAdapter {
   public static fromDocumentDataArray(data: DocumentData[]): CartState[] {
-    return data.map((d) => FirebaseAdapter.fromDocumentData(d.data()));
+    return data.map((d) => FirebaseAdapter.fromDocumentData(d.data(),d.id));
   }
 
-  public static fromDocumentData(data: DocumentData): CartState {
+  public static fromDocumentData(data: DocumentData,dataId:string): CartState {
     console.log(data.date);
     return {
+      id:dataId,
       products: data.products,
       total: data.total,
       totalWithDiscount: data.totalWithDiscount,
