@@ -14,10 +14,12 @@ import {
   serverTimestamp,
   runTransaction,
   Transaction,
+  getDoc,
 } from "firebase/firestore";
 import CartState from "../models/CartState";
 import Product from "../models/Product";
 import { FirebaseAdapter } from "../models/FirebaseAdapter";
+import { once } from "events";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -60,27 +62,6 @@ export const fetchSales = async () => {
     return adapterDocs;
   } else {
     return null;
-  }
-};
-export const less = async (document: CartState, productToUpdate: Product) => {
-  try {
-    const docRef = doc(db, "sales", document.id);
-    await runTransaction(db, async (transaction) => {
-      const doc = await transaction.get(docRef);
-      if (!doc.exists()) {
-        throw "document doesn't exist";
-      }
-      const formatedDoc = FirebaseAdapter.fromDocumentData(doc);
-      const products = formatedDoc.products;
-      const newProduct = formatedDoc.products.find(
-        (product) =>
-          product.id === productToUpdate.id &&
-          product.description === productToUpdate.description
-      );
-      products.
-    });
-  } catch (err) {
-    console.error(err);
   }
 };
 
@@ -136,6 +117,41 @@ export const fetchProductsFromFB = async (list: string) => {
 
 //refresh the price to a list of products
 
-const refreshProducts = async (list: string, products: Product) => {
+export const updateProduct = async (docId: string, newProduct: Product) => {
+  const docRef = doc(db, "sales", docId);
+  console.log((await getDoc(docRef)).data());
+  let newProducts = null;
+  try {
+    await runTransaction(db, async (transaction) => {
+      const sfDoc = await transaction.get(docRef);
+      if (!sfDoc.exists()) {
+        throw "Document doesn't exist";
+      }
+      const newProducts = sfDoc.data().products;
+      console.log(`NEW-PRODUCT:${newProduct} \nDocData:${sfDoc.data()}`);
+      newProducts.forEach((product: Product) => {
+        if (product.cod === newProduct.cod) {
+          product.price = newProduct.price;
+        }
+      });
+      transaction.update(docRef, {
+        products: newProducts,
+      });
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const refreshProducts = async (list: string, products: Product[]) => {
+  products.sort((a: Product, b: Product) => {
+    if (a.cod < b.cod) {
+      return -1;
+    } else if (a.cod > b.cod) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
   const collectionRef = collection(db, `${list}`);
 };

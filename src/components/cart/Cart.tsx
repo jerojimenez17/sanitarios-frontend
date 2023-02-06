@@ -43,6 +43,7 @@ function Cart() {
       const now = Date.now();
 
       cartState.date = new Date(now);
+      cartState.id = cartState.date.toLocaleDateString();
       addDoc(collectionRef, cartState);
       clientName("");
       removeAll();

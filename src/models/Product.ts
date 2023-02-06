@@ -1,9 +1,9 @@
 //interface export for product
 export default interface Product {
   id: string;
-  cod: String;
-  description: String;
-  brand: String;
+  cod: string;
+  description: string;
+  brand: string;
   price: number;
   amount: number;
   search?: number;

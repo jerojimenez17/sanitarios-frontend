@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { deleteDoc, doc, DocumentData } from "firebase/firestore";
 import React, { useCallback, useEffect, useState } from "react";
-import { db, fetchSales } from "../services/FireBase";
+import { db, fetchSales, updateProduct } from "../services/FireBase";
 import Row from "../components/Row";
 import { fetchProductById } from "../services/ProductService";
 import Product from "../models/Product";
@@ -20,7 +20,7 @@ import CartState from "../models/CartState";
 const Counts = () => {
   const [sales, setsales] = useState<CartState[] | null>([]);
   const [newProductsState, setNewProductsState] = useState<any[]>([]);
-  const [newSales, setNewSales] = useState<CartState[]>([]);
+  const [newSalesState, setNewSalesState] = useState<CartState[]>([]);
   const [openDeleteModal, setOpenDeleteModal] = useState("");
 
   const handleOpenDeleteModal = (rowId: string) => {
@@ -30,28 +30,43 @@ const Counts = () => {
   const handleDelete = useCallback((row: CartState) => {
     deleteDoc(doc(db, "sales", row.id));
   }, []);
-  const refreshPrice = (products: Product[]) => {
-    products.forEach(async (product) => {
-      try {
-        const newProduct = await fetchProductById(product.id);
-        let newProducts = newProductsState;
-        newProducts.push(newProduct);
-        setNewProductsState(newProducts);
-      } catch (err) {
-        console.error(err);
-      }
+  const refreshPrice = (sale: CartState) => {
+    let newSales: CartState[] = [];
+    // sales.forEach(async (sale) => {
+
+    let newSale: CartState = {
+      id: "",
+      products: [],
+      total: 0,
+      totalWithDiscount: 0,
+      client: "",
+      date: new Date(0),
+    };
+    let newProducts: Product[] = [];
+    sale.products.forEach(async (product) => {
+      fetchProductById(product.id, product.cod)
+        .then((product: Product[]) => {
+          console.log(product[0]);
+          console.log(sale);
+          updateProduct(sale.id, product[0]);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     });
   };
+  // };
+
   useEffect(() => {
-    if (!openDeleteModal) {
+    if (openDeleteModal === "") {
       fetchSales().then((data: CartState[] | null) => {
         console.log(data);
         setsales(data);
+        if (sales && sales.length > 0) {
+          refreshPrice(sales[0]);
+        }
       });
     }
-    sales?.map((doc) => {
-      refreshPrice(doc.products);
-    });
   }, [openDeleteModal]);
   return (
     <Box mt={2} ml="2rem" mr="2rem" maxWidth={"50"}>
