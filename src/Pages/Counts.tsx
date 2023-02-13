@@ -44,7 +44,7 @@ const Counts = () => {
     };
     let newProducts: Product[] = [];
     sale.products.forEach(async (product) => {
-      fetchProductById(product.id, product.cod)
+      fetchProductById(product.id, product.cod, product.description)
         .then((product: Product[]) => {
           console.log(product[0]);
           console.log(sale);
@@ -63,7 +63,7 @@ const Counts = () => {
         console.log(data);
         setsales(data);
         if (sales && sales.length > 0) {
-          refreshPrice(sales[0]);
+          sales?.forEach((s) => refreshPrice(s));
         }
       });
     }

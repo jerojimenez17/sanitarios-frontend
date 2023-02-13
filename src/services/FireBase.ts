@@ -128,9 +128,14 @@ export const updateProduct = async (docId: string, newProduct: Product) => {
         throw "Document doesn't exist";
       }
       const newProducts = sfDoc.data().products;
-      console.log(`NEW-PRODUCT:${newProduct} \nDocData:${sfDoc.data()}`);
+      console.log(
+        `NEW-PRODUCT:${newProduct.brand} \nDocData:${sfDoc.data().products}`
+      );
       newProducts.forEach((product: Product) => {
-        if (product.cod === newProduct.cod) {
+        if (
+          product.cod === newProduct.cod &&
+          product.price < newProduct.price
+        ) {
           product.price = newProduct.price;
         }
       });
