@@ -7,6 +7,7 @@ import {
   List,
   ListItemButton,
   Modal,
+  Paper,
   Typography,
 } from "@mui/material";
 import { DocumentData } from "firebase/firestore";
@@ -61,23 +62,25 @@ export default function TransitionsModal({
           timeout: 500,
         }}
       >
-        <Fade in={open}>
-          <Box sx={style}>
-            <List>
-              {counts?.map((sale) => {
-                return (
-                  <ListItemButton onClick={() => addProductsToCount(sale)}>
-                    <Avatar sx={{ bgcolor: green[500] }}>
-                      <AssignmentIcon />
-                    </Avatar>
-                    <Typography ml={3}>{sale.client}</Typography>
-                  </ListItemButton>
-                );
-              })}
-            </List>
-            <Divider />
-          </Box>
-        </Fade>
+        <Paper>
+          <Fade in={open}>
+            <Box sx={style}>
+              <List>
+                {counts?.map((sale) => {
+                  return (
+                    <ListItemButton onClick={() => addProductsToCount(sale)}>
+                      <Avatar sx={{ bgcolor: green[500] }}>
+                        <AssignmentIcon />
+                      </Avatar>
+                      <Typography ml={3}>{sale.client}</Typography>
+                    </ListItemButton>
+                  );
+                })}
+              </List>
+              <Divider />
+            </Box>
+          </Fade>
+        </Paper>
       </Modal>
     </div>
   );
