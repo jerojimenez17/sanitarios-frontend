@@ -10,6 +10,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Badge } from "@mui/material";
 import { CartContext } from "../cart/context/CartContext";
 import { Link } from "react-router-dom";
+import SwitchDarkMode from "../SwitchDarkMode";
 
 // const Search = styled("div")(({ theme }) => ({
 //   position: "relative",
@@ -60,7 +61,10 @@ interface SearchAppBarProps {
   openCart: boolean;
   page: string;
   handlePageChange: React.Dispatch<React.SetStateAction<string>>;
+  themeMode: boolean;
+  handleTheme: () => void;
 }
+
 export default function SearchAppBar({
   openDrawer,
   handleSearchText,
@@ -69,6 +73,8 @@ export default function SearchAppBar({
   page,
   handlePageChange,
   openCart,
+  themeMode,
+  handleTheme,
 }: SearchAppBarProps) {
   const { cartState } = useContext(CartContext);
   React.useEffect(() => {
@@ -110,7 +116,7 @@ export default function SearchAppBar({
               >
                 <Typography
                   variant="h6"
-                  color={page === "products" ? "primary" : "black"}
+                  color={page === "products" ? "primary" : "inherit"}
                 >
                   Productos
                 </Typography>
@@ -131,7 +137,7 @@ export default function SearchAppBar({
               >
                 <Typography
                   variant="h6"
-                  color={page === "counts" ? "primary" : "black"}
+                  color={page === "counts" ? "primary" : "inherit"}
                 >
                   Cuentas
                 </Typography>
@@ -167,6 +173,8 @@ export default function SearchAppBar({
               inputProps={{ "aria-label": "buscar" }}
             />
           </Search> */}
+
+          <SwitchDarkMode themeMode={themeMode} handleThemeMode={handleTheme} />
           <IconButton
             color={openCart ? "primary" : "default"}
             onClick={(e) => {

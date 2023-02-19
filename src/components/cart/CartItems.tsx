@@ -15,10 +15,11 @@ import Product from "../../models/Product";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 interface props {
+  products: Product[];
   edit: boolean;
 }
 
-const CartItems = ({ edit }: props) => {
+const CartItems = ({ edit, products }: props) => {
   const {
     cartState,
     addUnit,
@@ -64,7 +65,7 @@ const CartItems = ({ edit }: props) => {
           <TableCell></TableCell>
         </TableHead>
 
-        {cartState.products.map((producto: Product, id: number) => (
+        {products.map((producto: Product, id: number) => (
           <TableRow key={producto.id} className="cart-row">
             <TableCell className="description">
               {producto.description}

@@ -80,7 +80,7 @@ demo-simple-select-helper{
   min-height: 72vh;
 }
 .cart-container{
-  max-height: 400px;
+  max-height: 55vh;
 }
 .cart-row:nth-child(even){
   

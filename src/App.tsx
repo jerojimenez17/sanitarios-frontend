@@ -8,13 +8,19 @@ import CartProvider from "./components/cart/context/CartProvider";
 import Counts from "./Pages/Counts";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { esES } from "@mui/x-data-grid";
-import { pink } from "@mui/material/colors";
+import { blue, pink } from "@mui/material/colors";
+import { Paper } from "@mui/material";
 
 function App() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [page, setPage] = useState(window.location.href.split("/")[3]);
   const [searchText, setSearchText] = useState("");
   const [openCart, setOpenCart] = useState(false);
+  const [themeMode, setThemeMode] = useState(false);
+
+  const handleTheme = () => {
+    setThemeMode(!themeMode);
+  };
   const handleOpenDrawer = () => {
     setOpenDrawer(!openDrawer);
   };
@@ -23,44 +29,43 @@ function App() {
   const theme = createTheme(
     {
       palette: {
-        // mode: prefersDarkMode ? "dark" : "light",
-        primary: { main: "#1976d2" },
+        mode: themeMode ? "dark" : "light",
+        primary: { main: blue[400] },
 
-        secondary: pink,
+        secondary: { main: pink[400] },
       },
     },
     esES // x-data-grid translations
   );
-  const darkTheme = createTheme({
-    palette: {
-      mode: "dark",
-    },
-  });
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <CartProvider>
-          <BrowserRouter>
-            <SearchAppBar
-              page={page}
-              handlePageChange={setPage}
-              openCart={openCart}
-              setOpenCart={setOpenCart}
-              openDrawer={handleOpenDrawer}
-              handleSearchText={setSearchText}
-              searchText={searchText}
-            />
-            <LeftDrawer open={openDrawer} onClose={handleOpenDrawer} />
-            <Routes>
-              <Route
-                path="/products"
-                element={<Products openCart={openCart} />}
+        <Paper>
+          <CartProvider>
+            <BrowserRouter>
+              <SearchAppBar
+                page={page}
+                handlePageChange={setPage}
+                openCart={openCart}
+                setOpenCart={setOpenCart}
+                openDrawer={handleOpenDrawer}
+                handleSearchText={setSearchText}
+                searchText={searchText}
+                themeMode={themeMode}
+                handleTheme={handleTheme}
               />
-              <Route path="/counts" element={<Counts />} />
-              <Route path="*" element={<Navigate to="/products" />} />
-            </Routes>
-          </BrowserRouter>
-        </CartProvider>
+              <LeftDrawer open={openDrawer} onClose={handleOpenDrawer} />
+              <Routes>
+                <Route
+                  path="/products"
+                  element={<Products openCart={openCart} />}
+                />
+                <Route path="/counts" element={<Counts />} />
+                <Route path="*" element={<Navigate to="/products" />} />
+              </Routes>
+            </BrowserRouter>
+          </CartProvider>
+        </Paper>
       </ThemeProvider>
     </div>
   );

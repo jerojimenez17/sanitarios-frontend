@@ -8,7 +8,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  MutableRefObject,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useReactToPrint } from "react-to-print";
 import Product from "../models/Product";
 import CartItems from "./cart/CartItems";
@@ -16,15 +22,20 @@ import { CartContext } from "./cart/context/CartContext";
 
 interface PrinteableProductsProps {
   edit: boolean;
-  print: boolean;
+  reference?: MutableRefObject<null>;
+  print?: boolean;
   products: Product[];
+  date?: Date;
   client?: string;
-  setPrint: React.Dispatch<React.SetStateAction<boolean>>;
+  setPrint?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const PrinteableProducts = ({
   edit,
+  reference,
   print,
   setPrint,
+  date,
+  products,
   client,
 }: PrinteableProductsProps) => {
   const [fecha, setFecha] = useState<Date>();
@@ -36,14 +47,18 @@ const PrinteableProducts = ({
     content: () => ref.current,
   });
   useEffect(() => {
-    if (print) {
+    if (print && setPrint) {
       handlePrint();
       setPrint(!print);
     }
   }, [print]);
   useEffect(() => {
     const hoy = Date.now();
-    setFecha(new Date(hoy));
+    if (date) {
+      setFecha(date);
+    } else {
+      setFecha(new Date(hoy));
+    }
   }, [handlePrint]);
   const handleDiscount = (e: any) => {
     if (e.key === "Enter") {
@@ -61,7 +76,7 @@ const PrinteableProducts = ({
     }
   };
   return (
-    <Box ref={ref} className="printeable-cart">
+    <Box ref={reference ? reference : ref} className="printeable-cart">
       {/* <Typography variant="h3" className="title-card" color="primary" ml={1}>
   Jimenez Sanitarios
   </Typography>  */}
@@ -80,11 +95,11 @@ const PrinteableProducts = ({
           </Box>
           <div className="date-customer-container">
             <Typography variant="h6" className="date">
-              Fecha: {fecha?.toLocaleDateString()} {fecha?.toLocaleTimeString()}
+              Fecha:{fecha?.toLocaleDateString()} {fecha?.toLocaleTimeString()}
             </Typography>
             {client !== "" && (
               <Typography className="customer" variant="h6">
-                Cliente: {cartState.client}
+                Cliente: {client}
               </Typography>
             )}
           </div>
@@ -92,7 +107,7 @@ const PrinteableProducts = ({
 
         <Divider />
         <Box className="products-cart">
-          <CartItems edit={edit} />
+          <CartItems edit={edit} products={products} />
         </Box>
 
         <Divider />
@@ -133,7 +148,7 @@ const PrinteableProducts = ({
           <Box mt={2}>
             <Typography variant="h5" color="primary" mr={2} ml={1}>
               Total: $
-              {cartState.products
+              {products
                 .reduce((acc, cur) => acc + cur.price * cur.amount, 0)
                 .toFixed()}
             </Typography>

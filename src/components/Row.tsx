@@ -28,6 +28,7 @@ import { Delete, Print } from "@mui/icons-material";
 import { useReactToPrint } from "react-to-print";
 import { db } from "../services/FireBase";
 import CartState from "../models/CartState";
+import PrinteableProducts from "./PrinteableProducts";
 
 interface rowProps {
   key: string;
@@ -116,8 +117,16 @@ const Row = ({
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit component={Paper}>
-            <Box
+          <Paper>
+            <Collapse in={open} timeout="auto" unmountOnExit component={Paper}>
+              <PrinteableProducts
+                edit={false}
+                products={row.products}
+                reference={ref}
+                client={row.client}
+                date={row.date}
+              />
+              {/* <Box
               sx={{ margin: 1, backgroundColor: "#f0f0f0", boxShadow: 2 }}
               ref={ref}
             >
@@ -151,33 +160,34 @@ const Row = ({
                 <TableBody>
                   {row?.products?.map((product: Product) => (
                     <TableRow key={product.id}>
-                      <TableCell align="right">{product.cod}</TableCell>
-                      <TableCell align="right">{product.description}</TableCell>
-                      <TableCell align="right">{product.amount}</TableCell>
+                    <TableCell align="right">{product.cod}</TableCell>
+                    <TableCell align="right">{product.description}</TableCell>
+                    <TableCell align="right">{product.amount}</TableCell>
                       <TableCell align="right">
-                        ${Number(product.price).toFixed()}
+                      ${Number(product.price).toFixed()}
                       </TableCell>
                       <TableCell align="right">
                         ${(product.price * product.amount).toFixed()}
-                      </TableCell>
+                        </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
                 <Box display="flex" justifyContent="flex-end" width="100%">
                   <Typography variant="h5">
-                    Total:
-                    {row?.products
+                  Total:
+                  {row?.products
                       ?.reduce(
                         (acc: number, cur: { price: number; amount: number }) =>
-                          acc + cur.price * cur.amount,
+                        acc + cur.price * cur.amount,
                         0
                       )
                       .toFixed()}
-                  </Typography>
-                </Box>
+                      </Typography>
+                      </Box>
               </Table>
-            </Box>
-          </Collapse>
+            </Box> */}
+            </Collapse>
+          </Paper>
         </TableCell>
       </TableRow>
       <Dialog open={openDeleteModal === row.id}>
