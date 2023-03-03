@@ -120,7 +120,7 @@ export default function TransitionsModal({
                     return count.client
                   ?.toString()
                   .toLocaleLowerCase()
-                  .includes(search.toLowerCase())
+                  .includes(nameNewCount.toLowerCase())
                        })
                       .map((sale) => {
                 return (
