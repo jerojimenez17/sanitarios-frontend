@@ -117,7 +117,10 @@ export default function TransitionsModal({
                 ></TextField>
               </ListItem>
               {counts?.filter((count)=>{
-                    return count.client.contains(nameNewCount)
+                    return count.client
+                  ?.toString()
+                  .toLocaleLowerCase()
+                  .includes(search.toLowerCase())
                        })
                       .map((sale) => {
                 return (
