@@ -91,6 +91,9 @@ demo-simple-select-helper{
   margin: 11mm 14mm 14mm 14mm;
 }
 @media print {
+  .buttonsCountsFB{
+    display: none;
+  }
   .date-customer-container{
     margin: 30px 0 0 0 ;
   }
