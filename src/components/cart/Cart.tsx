@@ -36,7 +36,7 @@ function Cart() {
   const [openModal, setOpenModal] = useState(false);
   const [openCustomerModal, setOpenCustomerModal] = useState(false);
 
-  const collectionRef = collection(db, "sales");
+  const collectionRef = collection(db, "sale");
   const handleSaveSale = () => {
     console.log(cartState.products.length);
     if (cartState.products.length !== 0) {
@@ -163,9 +163,9 @@ function Cart() {
         </Box> */}
         <Divider />
         <Box display="flex" justifyContent="space-around" alignItems="center">
-          <Button color="success" variant="contained" onClick={handleSaveSale}>
+          {/* <Button color="success" variant="contained" onClick={handleSaveSale}>
             Vender
-          </Button>
+          </Button> */}
           <Button
             variant="outlined"
             color="secondary"

@@ -1,32 +1,22 @@
 import {
   Box,
   Button,
-  ButtonBase,
   Collapse,
   Dialog,
   DialogActions,
   DialogTitle,
-  Divider,
   IconButton,
-  Modal,
   Paper,
-  Table,
-  TableBody,
   TableCell,
-  TableFooter,
-  TableHead,
   TableRow,
   Tooltip,
   Typography,
 } from "@mui/material";
-import { DocumentData } from "firebase/firestore";
 import React, { useRef, useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import Product from "../models/Product";
-import { Delete, Print } from "@mui/icons-material";
+import { Delete, Print, RefreshRounded } from "@mui/icons-material";
 import { useReactToPrint } from "react-to-print";
-import { db } from "../services/FireBase";
 import CartState from "../models/CartState";
 import PrinteableProducts from "./PrinteableProducts";
 
@@ -36,6 +26,8 @@ interface rowProps {
   handleDeleteDoc: (doc: CartState) => void;
   handleOpenDeleteModal: (rowId: string) => void;
   openDeleteModal: string;
+  setDocToChange: React.Dispatch<React.SetStateAction<string>>;
+  refreshPrice: (sale: CartState) => void;
 }
 
 const Row = ({
@@ -44,6 +36,8 @@ const Row = ({
   handleDeleteDoc,
   handleOpenDeleteModal,
   openDeleteModal,
+  setDocToChange,
+  refreshPrice,
 }: rowProps) => {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
@@ -113,6 +107,11 @@ const Row = ({
               <Delete />
             </IconButton>
           </Tooltip>
+          <Tooltip title="Actualizar">
+            <IconButton onClick={() => refreshPrice(row)}>
+              <RefreshRounded />
+            </IconButton>
+          </Tooltip>
         </TableCell>
       </TableRow>
       <TableRow>
@@ -125,6 +124,8 @@ const Row = ({
                 reference={ref}
                 client={row.client}
                 date={row.date}
+                documentId={row.id}
+                setDocToChange={setDocToChange}
               />
               {/* <Box
               sx={{ margin: 1, backgroundColor: "#f0f0f0", boxShadow: 2 }}

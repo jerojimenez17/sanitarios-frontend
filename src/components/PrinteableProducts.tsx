@@ -19,7 +19,7 @@ import { useReactToPrint } from "react-to-print";
 import Product from "../models/Product";
 import CartItems from "./cart/CartItems";
 import { CartContext } from "./cart/context/CartContext";
-
+import logo from "../assets/logo.png";
 interface PrinteableProductsProps {
   edit: boolean;
   reference?: MutableRefObject<null>;
@@ -28,6 +28,8 @@ interface PrinteableProductsProps {
   date?: Date;
   client?: string;
   setPrint?: React.Dispatch<React.SetStateAction<boolean>>;
+  documentId?: string;
+  setDocToChange?: React.Dispatch<React.SetStateAction<string>>;
 }
 const PrinteableProducts = ({
   edit,
@@ -35,8 +37,10 @@ const PrinteableProducts = ({
   print,
   setPrint,
   date,
+  documentId,
   products,
   client,
+  setDocToChange,
 }: PrinteableProductsProps) => {
   const [fecha, setFecha] = useState<Date>();
   const [discountState, setDiscountState] = useState(0);
@@ -59,7 +63,7 @@ const PrinteableProducts = ({
     } else {
       setFecha(new Date(hoy));
     }
-  }, [handlePrint]);
+  }, [print]);
   const handleDiscount = (e: any) => {
     if (e.key === "Enter") {
       if (e.target.value === "" || e.target.value === "0") {
@@ -83,15 +87,15 @@ const PrinteableProducts = ({
       <Box m={1} className="cart">
         <Box display="flex">
           <Box className="logo">
-            <Typography
+            {/* <Typography
               variant="h4"
               className="title-card"
               color="primary"
               ml={2}
             >
               Jimenez Sanitarios
-            </Typography>
-            {/* <img className="img-logo" alt="Jimenez Sanitarios" /> */}
+            </Typography> */}
+            <img className="img-logo" alt="Jimenez Sanitarios" src={logo} />
           </Box>
           <div className="date-customer-container">
             <Typography variant="h6" className="date">
@@ -107,7 +111,13 @@ const PrinteableProducts = ({
 
         <Divider />
         <Box className="products-cart">
-          <CartItems edit={edit} products={products} />
+          <CartItems
+            edit={edit}
+            products={products}
+            count={date !== undefined}
+            documentId={documentId}
+            setDocToChange={setDocToChange}
+          />
         </Box>
 
         <Divider />

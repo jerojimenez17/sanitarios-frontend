@@ -13,21 +13,29 @@ import React, { useContext } from "react";
 import { CartContext } from "./context/CartContext";
 import Product from "../../models/Product";
 import DeleteIcon from "@mui/icons-material/Delete";
+import {
+  editProductAddUnit,
+  editProductLessUnit,
+  editProductRemove,
+} from "../../services/FireBase";
 
 interface props {
   products: Product[];
   edit: boolean;
+  count?: boolean;
+  documentId?: string;
+  setDocToChange?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const CartItems = ({ edit, products }: props) => {
-  const {
-    cartState,
-    addUnit,
-    removeUnit,
-    removeItem,
-    changePrice,
-    changeAmount,
-  } = useContext(CartContext);
+const CartItems = ({
+  edit,
+  products,
+  count = false,
+  documentId,
+  setDocToChange,
+}: props) => {
+  const { addUnit, removeUnit, removeItem, changePrice, changeAmount } =
+    useContext(CartContext);
 
   const handleAddItem = (producto: Product) => {
     addUnit(producto);
@@ -51,6 +59,16 @@ const CartItems = ({ edit, products }: props) => {
       product.amount = e.target.value;
       changeAmount(product);
     }
+  };
+
+  const addUnitFB = async (productId: string, documentId: string) => {
+    await editProductAddUnit(productId, documentId);
+  };
+  const lessUnitFB = async (productId: string, documentId: string) => {
+    await editProductLessUnit(productId, documentId);
+  };
+  const deleteProductFB = async (productId: string, documentId: string) => {
+    await editProductRemove(productId, documentId);
   };
 
   return (
@@ -104,6 +122,34 @@ const CartItems = ({ edit, products }: props) => {
               ${(producto.amount * producto.price).toFixed()}
             </TableCell>
             <TableCell>
+              {documentId && (
+                <Box className="buttonsCountsFB">
+                  <IconButton
+                    size="small"
+                    onClick={() => addUnitFB(producto.id, documentId)}
+                    color="success"
+                    aria-label="addItem"
+                  >
+                    <AddCircle />
+                  </IconButton>
+                  <IconButton
+                    size="small"
+                    onClick={() => lessUnitFB(producto.id, documentId)}
+                    color="primary"
+                    aria-label="removeUnit"
+                  >
+                    <RemoveCircle />
+                  </IconButton>
+                  <IconButton
+                    size="small"
+                    color="error"
+                    aria-label="removeItem"
+                    onClick={() => deleteProductFB(producto.id, documentId)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              )}
               {edit && (
                 <Box
                   display="flex"

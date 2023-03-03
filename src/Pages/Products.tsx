@@ -1,20 +1,16 @@
-import { Refresh } from "@mui/icons-material";
 import {
   Box,
   FormControl,
   Grid,
-  IconButton,
   InputLabel,
   MenuItem,
   Select,
   TextField,
-  Tooltip,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Cart from "../components/cart/Cart";
 import ProductGrid from "../components/ProductsTable/ProductGrid";
 import Product from "../models/Product";
-import { fetchProductsFromFB, saveProducts } from "../services/FireBase";
 import fetchProducts from "../services/ProductService";
 
 interface ProductProps {
@@ -22,8 +18,6 @@ interface ProductProps {
 }
 const Products = ({ openCart }: ProductProps) => {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
-  const [allProductsFB, setAllProductsFB] = useState<Product[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
   const [productsListName, setProductListName] = useState<string>("taladro");
   const [search, setSearch] = useState<string>("");
   useEffect(() => {
@@ -40,7 +34,6 @@ const Products = ({ openCart }: ProductProps) => {
   //     setHasMore(false);
   //   }
   // };
-  const handleRefresh = () => {};
   const handleKeyPress = (e: any) => {
     if (e.key === "Enter") {
       setSearch(e.target.value);
@@ -51,15 +44,16 @@ const Products = ({ openCart }: ProductProps) => {
       setSearch("");
     }
   };
-  const handleSaveProducts = async () => {
-    saveProducts(productsListName, allProducts);
-  };
+
   return (
-    <>
+    <Box display="flex" flexWrap="wrap" height="100vh" flexDirection="column">
       <Box
         display="flex"
+        mt={1}
+        mb={1}
         justifyContent="flex-start"
         alignItems="center"
+        alignContent="center"
         className="search-select-container"
       >
         <TextField
@@ -80,7 +74,6 @@ const Products = ({ openCart }: ProductProps) => {
         />
         <FormControl
           color="primary"
-          focused
           sx={{
             m: "2rem",
             minWidth: 200,
@@ -159,7 +152,7 @@ const Products = ({ openCart }: ProductProps) => {
           <Cart />
         </Grid>
       </Grid>
-    </>
+    </Box>
   );
 };
 

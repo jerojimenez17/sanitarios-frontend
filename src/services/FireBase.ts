@@ -1,7 +1,3 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-
 import {
   doc,
   getFirestore,
@@ -21,6 +17,9 @@ import Product from "../models/Product";
 import { FirebaseAdapter } from "../models/FirebaseAdapter";
 import { once } from "events";
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -37,7 +36,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 export const db = getFirestore(app);
@@ -65,18 +64,108 @@ export const fetchSales = async () => {
   }
 };
 
+export const editProductAddUnit = async (productId: string, docId: string) => {
+  const docRef = doc(db, "sales", docId);
+  try {
+    await runTransaction(db, async (transaction) => {
+      const sfDoc = await transaction.get(docRef);
+      if (!sfDoc.exists()) {
+        throw "Document doesn't exist";
+      }
+      const newProducts = sfDoc.data().products;
+      newProducts.forEach((product: Product) => {
+        console.log(productId);
+        if (product.id === productId) {
+          product.amount++;
+        }
+      });
+      transaction.update(docRef, {
+        products: newProducts,
+      });
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const editProductLessUnit = async (productId: string, docId: string) => {
+  const docRef = doc(db, "sales", docId);
+  try {
+    await runTransaction(db, async (transaction) => {
+      const sfDoc = await transaction.get(docRef);
+      if (!sfDoc.exists()) {
+        throw "Document doesn't exist";
+      }
+      const newProducts = sfDoc.data().products;
+      newProducts.forEach((product: Product) => {
+        console.log(productId);
+        if (product.id === productId && product.amount > 1) {
+          product.amount--;
+        }
+      });
+      transaction.update(docRef, {
+        products: newProducts,
+      });
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const editProductRemove = async (productId: string, docId: string) => {
+  const docRef = doc(db, "sales", docId);
+  try {
+    await runTransaction(db, async (transaction) => {
+      const sfDoc = await transaction.get(docRef);
+      if (!sfDoc.exists()) {
+        throw "Document doesn't exist";
+      }
+      const newProducts = sfDoc.data().products;
+
+      transaction.update(docRef, {
+        products: newProducts.filter((product: Product) => {
+          return product.id !== productId;
+        }),
+      });
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
 export const addProductsToClient = async (
   document: DocumentData,
   newProducts: Product[]
 ) => {
+  let produ: Product[] = [];
   const docRef = doc(db, "sales", document.id);
-
-  console.log(docRef);
-  newProducts.forEach((newProduct) => {
-    updateDoc(docRef, {
-      products: arrayUnion(newProduct),
+  try {
+    await runTransaction(db, async (transaction) => {
+      const sfDoc = await transaction.get(docRef);
+      if (!sfDoc.exists()) {
+        throw new Error(`Could not find `);
+      }
+      produ = sfDoc.data().products;
     });
-  });
+
+    console.log(docRef);
+    newProducts.forEach((newProduct) => {
+      const find = produ.find(
+        (product) => product.description === newProduct.description
+      );
+      if (find) {
+        const index = produ.indexOf(find);
+        produ[index].amount += newProduct.amount;
+        updateDoc(docRef, {
+          products: produ,
+        });
+      } else {
+        updateDoc(docRef, {
+          products: arrayUnion(newProduct),
+        });
+      }
+    });
+  } catch (error) {
+    console.error(error);
+  }
 };
 // save the products in documents
 

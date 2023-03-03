@@ -4,8 +4,7 @@ import Product from "../models/Product";
 const fetchProducts = async (route: string) => {
   try {
     const response = await axios.get(
-      "https://sanitarios-backend-production-9972.up.railway.app/api/productos/" +
-        route,
+      "http://localhost:3002/api/productos/" + route,
       {
         headers: {
           "Content-Type": "application/json",
@@ -27,7 +26,7 @@ export const fetchProductById = async (
   try {
     const listName = id.split("-")[0];
     const response = await axios.get(
-      `https://sanitarios-backend-production-9972.up.railway.app/api/productos/${listName}/` +
+      `http://localhost:3002/api/productos/${listName}/` +
         cod
           .toString()
           .toLocaleLowerCase()
