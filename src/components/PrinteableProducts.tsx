@@ -81,21 +81,19 @@ const PrinteableProducts = ({
   };
   return (
     <Box ref={reference ? reference : ref} className="printeable-cart">
-      {/* <Typography variant="h3" className="title-card" color="primary" ml={1}>
-  Jimenez Sanitarios
-  </Typography>  */}
+      
       <Box m={1} className="cart">
         <Box display="flex">
           <Box className="logo">
-            {/* <Typography
+            <Typography
               variant="h4"
               className="title-card"
               color="primary"
               ml={2}
             >
               Jimenez Sanitarios
-            </Typography> */}
-            <img className="img-logo" alt="Jimenez Sanitarios" src={logo} />
+            </Typography> 
+           
           </Box>
           <div className="date-customer-container">
             <Typography variant="h6" className="date">
