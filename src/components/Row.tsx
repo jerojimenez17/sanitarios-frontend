@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Collapse,
   Dialog,
   DialogActions,
@@ -28,6 +29,7 @@ interface rowProps {
   openDeleteModal: string;
   setDocToChange: React.Dispatch<React.SetStateAction<string>>;
   refreshPrice: (sale: CartState) => void;
+  loading: boolean;
 }
 
 const Row = ({
@@ -38,6 +40,7 @@ const Row = ({
   openDeleteModal,
   setDocToChange,
   refreshPrice,
+  loading,
 }: rowProps) => {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);

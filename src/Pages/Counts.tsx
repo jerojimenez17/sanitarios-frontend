@@ -1,5 +1,6 @@
 import {
   Box,
+  CircularProgress,
   Paper,
   Table,
   TableBody,
@@ -20,6 +21,9 @@ import { FirebaseAdapter } from "../models/FirebaseAdapter";
 
 const Counts = () => {
   const [sales, setsales] = useState<CartState[] | null>([]);
+  const [newProductsState, setNewProductsState] = useState<any[]>([]);
+  const [newSalesState, setNewSalesState] = useState<CartState[]>([]);
+  const [loading, setLoading] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState("");
 
   const [docToChange, setDocToChange] = useState("");
@@ -34,10 +38,15 @@ const Counts = () => {
   }, []);
 
   const refreshPrice = (sale: CartState) => {
+    let newProducts: Product[] = [];
     sale.products.forEach(async (product) => {
       fetchProductById(product.id, product.cod, product.description)
-        .then((product: Product[]) => {
-          updateProduct(sale.id, product[0]);
+        .then(async (product: Product[]) => {
+          setLoading(true);
+          console.log(product[0]);
+          console.log(sale);
+          await updateProduct(sale.id, product[0]);
+          setLoading(false);
         })
         .catch((error) => {
           console.error(error);
@@ -69,6 +78,9 @@ const Counts = () => {
       display="flex"
       flexWrap="wrap"
     >
+      {loading && (
+        <CircularProgress sx={{ position: "fixed", top: "50%", left: "50%" }} />
+      )}
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
@@ -109,6 +121,7 @@ const Counts = () => {
                   openDeleteModal={openDeleteModal}
                   setDocToChange={setDocToChange}
                   refreshPrice={refreshPrice}
+                  loading={loading}
                 />
               ))}
           </TableBody>

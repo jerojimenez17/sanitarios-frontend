@@ -46,7 +46,7 @@ const Products = ({ openCart }: ProductProps) => {
   };
 
   return (
-    <Box display="flex" flexWrap="wrap" height="100vh" flexDirection="column">
+    <Box display="flex" flexWrap="nowrap" height="100vh" flexDirection="column">
       <Box
         display="flex"
         mt={1}

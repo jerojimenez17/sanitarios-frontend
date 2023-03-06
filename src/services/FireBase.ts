@@ -153,7 +153,8 @@ export const addProductsToClient = async (
       );
       if (find) {
         const index = produ.indexOf(find);
-        produ[index].amount += newProduct.amount;
+        produ[index].amount =
+          Number(produ[index].amount) + Number(newProduct.amount);
         updateDoc(docRef, {
           products: produ,
         });
