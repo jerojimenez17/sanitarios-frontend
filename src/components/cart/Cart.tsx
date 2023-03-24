@@ -16,6 +16,7 @@ import { addDoc, collection } from "firebase/firestore";
 import CartModal from "./CartModal";
 import CustomerModal from "./CustomerModal";
 import PrinteableProducts from "../PrinteableProducts";
+import { afipCreateVoucherConsumidorFinal } from "../../services/AFIP";
 // import JimenezLogo from "../../assets/logo";
 
 function Cart() {
@@ -48,6 +49,9 @@ function Cart() {
       clientName("");
       removeAll();
     }
+  };
+  const handleFacturacion = (importe: number) => {
+    afipCreateVoucherConsumidorFinal(importe);
   };
 
   return (
@@ -181,6 +185,25 @@ function Cart() {
           <Tooltip title={"Editar"}>
             <IconButton onClick={() => setEdit(!edit)} color="primary">
               <EditSharp />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title={"Facturar"}>
+            <IconButton
+              onClick={() => {
+                handleFacturacion(
+                  cartState.products.reduce(
+                    (acc, cur) => acc + cur.price * cur.amount,
+                    0
+                  )
+                );
+              }}
+              color="success"
+              onClickCapture={() => {
+                edit && setEdit(!edit);
+              }}
+            >
+              <PrintIcon />
             </IconButton>
           </Tooltip>
 
