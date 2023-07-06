@@ -121,6 +121,7 @@ const Products = ({ openCart }: ProductProps) => {
             <MenuItem value="ciardi">Ciardi</MenuItem>
             <MenuItem value="paulo">Paulo</MenuItem>
             <MenuItem value="fg">FG</MenuItem>
+            <MenuItem value="luccini">Martin</MenuItem>
           </Select>
         </FormControl>
 

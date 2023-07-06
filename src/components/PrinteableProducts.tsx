@@ -80,9 +80,7 @@ const PrinteableProducts = ({
   };
   return (
     <Box ref={reference ? reference : ref} className="printeable-cart">
-      {/* <Typography variant="h3" className="title-card" color="primary" ml={1}>
-  Jimenez Sanitarios
-  </Typography>  */}
+      
       <Box m={1} className="cart">
         <Box display="flex">
           <Box className="logo">
