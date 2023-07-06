@@ -1,10 +1,13 @@
 import {
+  Alert,
   Box,
+  CircularProgress,
   FormControl,
   Grid,
   InputLabel,
   MenuItem,
   Select,
+  Snackbar,
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -20,10 +23,15 @@ const Products = ({ openCart }: ProductProps) => {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [productsListName, setProductListName] = useState<string>("taladro");
   const [search, setSearch] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   useEffect(() => {
-    fetchProducts(productsListName).then((productsWS: Product[]) =>
-      setAllProducts(productsWS)
-    );
+    setLoading(true);
+    fetchProducts(productsListName).then((productsWS: Product[]) => {
+      setAllProducts(productsWS);
+      setLoading(false);
+      productsWS.length == 0 && setError(true);
+    });
   }, [productsListName]);
 
   // const loadMore = () => {
@@ -43,6 +51,16 @@ const Products = ({ openCart }: ProductProps) => {
     if (e.target.value === "") {
       setSearch("");
     }
+  };
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setError(false);
   };
 
   return (
@@ -152,6 +170,22 @@ const Products = ({ openCart }: ProductProps) => {
           <Cart />
         </Grid>
       </Grid>
+      {loading && (
+        <CircularProgress
+          sx={{ position: "absolute", top: "50%", left: "49%" }}
+          color="primary"
+        />
+      )}
+      {error && (
+        <Snackbar
+          open={error}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          message="Error al cargar Productos"
+        >
+          <Alert severity="error">Error al cargar Productos</Alert>
+        </Snackbar>
+      )}
     </Box>
   );
 };

@@ -1,4 +1,5 @@
 // import CartState from "../interfaces/CartState";
+import CAE from "../../../models/CAE";
 import CartState from "../../../models/CartState";
 import Product from "../../../models/Product";
 
@@ -14,7 +15,11 @@ type CartAction =
   | { type: "changeAmount"; payload: Product }
   | { type: "total"; payload: null }
   | { type: "discount"; payload: number }
-  | { type: "clientName"; payload: string };
+  | { type: "typeDocument"; payload: string }
+  | { type: "documentNumber"; payload: number }
+  | { type: "clientName"; payload: string }
+  | { type: "IVACondition"; payload: string }
+  | { type: "CAE"; payload: CAE };
 
 export const CartReducer = (
   state: CartState,
@@ -76,6 +81,8 @@ export const CartReducer = (
       return {
         ...state,
         products: [],
+        CAE: { CAE: "", vencimiento: "", nroComprobante: 0 },
+        documentNumber: 0,
       };
     case "changePrice":
       return {
@@ -117,6 +124,29 @@ export const CartReducer = (
         ...state,
         client: action.payload,
       };
+    case "typeDocument":
+      return {
+        ...state,
+        typeDocument: action.payload,
+      };
+    case "documentNumber": {
+      return {
+        ...state,
+        documentNumber: action.payload,
+      };
+    }
+    case "IVACondition": {
+      return {
+        ...state,
+        IVACondition: action.payload,
+      };
+    }
+    case "CAE": {
+      return {
+        ...state,
+        CAE: action.payload,
+      };
+    }
     default:
       return state;
   }

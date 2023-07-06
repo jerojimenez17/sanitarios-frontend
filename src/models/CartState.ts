@@ -1,3 +1,4 @@
+import CAE from "./CAE";
 import Product from "./Product";
 
 export default interface CartState {
@@ -7,4 +8,8 @@ export default interface CartState {
   totalWithDiscount: number;
   client: string;
   date: Date;
+  typeDocument: string;
+  documentNumber: number;
+  IVACondition: string;
+  CAE?: CAE;
 }

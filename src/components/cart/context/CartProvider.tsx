@@ -5,6 +5,8 @@ import { CartReducer } from "./CartReducer";
 import CartState from "../../../models/CartState";
 import Product from "../../../models/Product";
 import ProductsTable from "../../ProductsTable/ProductsTable";
+import { types } from "util";
+import CAE from "../../../models/CAE";
 
 const INITIAL_STATE: CartState = {
   id: "",
@@ -13,6 +15,10 @@ const INITIAL_STATE: CartState = {
   total: 0,
   totalWithDiscount: 0,
   client: "",
+  typeDocument: "",
+  documentNumber: 0,
+  IVACondition: "Consumidor Final",
+  CAE: { CAE: "", vencimiento: "", nroComprobante: 0 },
 };
 
 interface props {
@@ -82,6 +88,30 @@ const CartProvider = ({ children }: props) => {
       payload: name,
     });
   };
+  const typeDocument = (type: string) => {
+    dispatch({
+      type: "typeDocument",
+      payload: type,
+    });
+  };
+  const documentNumber = (number: number) => {
+    dispatch({
+      type: "documentNumber",
+      payload: number,
+    });
+  };
+  const IVACondition = (condition: string) => {
+    dispatch({
+      type: "IVACondition",
+      payload: condition,
+    });
+  };
+  const CAE = (CAE: CAE) => {
+    dispatch({
+      type: "CAE",
+      payload: CAE,
+    });
+  };
 
   const values = {
     cartState: cartState,
@@ -95,6 +125,10 @@ const CartProvider = ({ children }: props) => {
     total: total,
     discount: discount,
     clientName: clientName,
+    typeDocument: typeDocument,
+    documentNumber: documentNumber,
+    IVACondition: IVACondition,
+    CAE: CAE,
   };
   return <CartContext.Provider value={values}>{children}</CartContext.Provider>;
 };
