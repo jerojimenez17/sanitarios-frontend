@@ -51,19 +51,18 @@ const PrinteableProducts = ({
     content: () => ref.current,
   });
   useEffect(() => {
-    if (print && setPrint) {
-      handlePrint();
-      setPrint(!print);
-    }
-  }, [print]);
-  useEffect(() => {
     const hoy = Date.now();
     if (date) {
       setFecha(date);
     } else {
       setFecha(new Date(hoy));
     }
+    if (print && setPrint) {
+      handlePrint();
+      setPrint(!print);
+    }
   }, [print]);
+
   const handleDiscount = (e: any) => {
     if (e.key === "Enter") {
       if (e.target.value === "" || e.target.value === "0") {
@@ -92,17 +91,53 @@ const PrinteableProducts = ({
               ml={2}
             >
               Jimenez Sanitarios
-            </Typography> 
-           
+            </Typography>
+            {/* <img className="img-logo" alt="Jimenez Sanitarios" src={logo} /> */}
           </Box>
-          <div className="date-customer-container">
+
+          {cartState.CAE?.CAE !== "" && (
+            <>
+              <Box>
+                <Typography
+                  variant="h4"
+                  className="C"
+                  sx={{ border: "1px solid", margin: "1rem" }}
+                >
+                  C
+                </Typography>
+              </Box>
+            </>
+          )}
+          <div>
             <Typography variant="h6" className="date">
               Fecha:{fecha?.toLocaleDateString()} {fecha?.toLocaleTimeString()}
             </Typography>
-            {client !== "" && (
-              <Typography className="customer" variant="h6">
-                Cliente: {client}
-              </Typography>
+            {cartState.CAE?.CAE !== "" && (
+              <>
+                <Typography className="document-container">
+                  CUIT del emisor: 20299735401{" "}
+                </Typography>
+                <Typography className="document-container">
+                  NRO Comprobante: {cartState.CAE?.nroComprobante}
+                </Typography>
+              </>
+            )}
+            {(client !== "" || cartState.documentNumber > 0) && (
+              <div className="customer-container">
+                <Typography className="customer" variant="h6">
+                  Cliente: {client}
+                </Typography>
+                {cartState.CAE?.CAE !== "" && (
+                  <Typography variant="h6" className="document-container">
+                    {cartState.IVACondition}
+                  </Typography>
+                )}
+                {Number(cartState.documentNumber) > 0 && (
+                  <Typography variant="h6" className="document-container">
+                    {cartState.typeDocument}: {cartState.documentNumber}
+                  </Typography>
+                )}
+              </div>
             )}
           </div>
         </Box>
@@ -128,13 +163,13 @@ const PrinteableProducts = ({
         >
           {edit ? (
             <FormControl sx={{ m: 1, width: "20ch" }} variant="standard">
-              <TextField
+              {/* <TextField
                 variant="standard"
                 label="Cliente"
                 placeholder={cartState.client}
                 aria-label="cliente"
                 onKeyDown={handleClient}
-              />
+              /> */}
               <FilledInput
                 id="filled-adornment"
                 onKeyDown={handleDiscount}
@@ -184,6 +219,15 @@ const PrinteableProducts = ({
             )}
           </Box>
         </Box>
+        <Divider />
+        {cartState.CAE?.CAE !== "" && (
+          <Box className="CAE-container">
+            <Typography>CAE:{cartState.CAE?.CAE}</Typography>
+            <Typography>
+              Vencimiento del CAE: {cartState.CAE?.vencimiento}
+            </Typography>
+          </Box>
+        )}
       </Box>
     </Box>
   );

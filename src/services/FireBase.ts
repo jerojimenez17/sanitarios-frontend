@@ -46,14 +46,6 @@ export const fetchSales = async () => {
   let sales: CartState[] = [];
   const docSnap = await getDocs(collectionRef);
 
-  let s: CartState = {
-    id: "",
-    products: [],
-    client: "",
-    total: 0,
-    totalWithDiscount: 0,
-    date: new Date(),
-  };
   const adapterDocs: CartState[] = FirebaseAdapter.fromDocumentDataArray(
     docSnap.docs
   );
