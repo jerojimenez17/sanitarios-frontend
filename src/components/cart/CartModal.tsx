@@ -116,7 +116,13 @@ export default function TransitionsModal({
                   onKeyDown={handleNewCount}
                 ></TextField>
               </ListItem>
-              {counts?.map((sale) => {
+              {counts?.filter((count)=>{
+                    return count.client
+                  ?.toString()
+                  .toLocaleLowerCase()
+                  .includes(nameNewCount.toLowerCase())
+                       })
+                      .map((sale) => {
                 return (
                   <ListItemButton
                     sx={{ width: "100%" }}
