@@ -17,6 +17,8 @@ import CartModal from "./CartModal";
 import CustomerModal from "./CustomerModal";
 import PrinteableProducts from "../PrinteableProducts";
 import { postBill } from "../../services/AfipService";
+import CountsModal from "../CountsModal";
+import ReceiptIcon from "@mui/icons-material/Receipt";
 // import JimenezLogo from "../../assets/logo";
 
 function Cart() {
@@ -36,6 +38,7 @@ function Cart() {
   const [edit, setEdit] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState(false);
   const [openCustomerModal, setOpenCustomerModal] = useState(false);
+  const [openCountsModal, setOpenCountsModal] = useState(false);
 
   const collectionRef = collection(db, "sale");
   const handleSaveSale = () => {
@@ -112,13 +115,13 @@ function Cart() {
                 edit && setEdit(!edit);
               }}
             >
-              <PrintIcon />
+              <ReceiptIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title={"Traer Cuenta"}>
             <IconButton
               onClick={() => {
-                handleGetAccount();
+                setOpenCountsModal(!openCountsModal);
               }}
               color="primary"
               // onClickCapture={() => {
@@ -147,6 +150,10 @@ function Cart() {
         <CustomerModal
           open={openCustomerModal}
           handleClose={() => setOpenCustomerModal(false)}
+        />
+        <CountsModal
+          open={openCountsModal}
+          handleClose={() => setOpenCountsModal(false)}
         />
       </Box>
     </Paper>

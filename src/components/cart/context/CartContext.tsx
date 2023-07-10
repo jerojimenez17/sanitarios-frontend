@@ -19,6 +19,7 @@ export default interface CartContextProps {
   documentNumber: (number: number) => void;
   IVACondition: (condition: string) => void;
   CAE: (cae: CAE) => void;
+  setState: (cartState: CartState) => void;
 }
 
 export const CartContext = createContext<CartContextProps>(

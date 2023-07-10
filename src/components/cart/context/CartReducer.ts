@@ -19,7 +19,8 @@ type CartAction =
   | { type: "documentNumber"; payload: number }
   | { type: "clientName"; payload: string }
   | { type: "IVACondition"; payload: string }
-  | { type: "CAE"; payload: CAE };
+  | { type: "CAE"; payload: CAE }
+  | { type: "setState"; payload: CartState };
 
 export const CartReducer = (
   state: CartState,
@@ -146,6 +147,10 @@ export const CartReducer = (
         ...state,
         CAE: action.payload,
       };
+    }
+    case "setState": {
+      state = action.payload;
+      return state;
     }
     default:
       return state;

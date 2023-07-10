@@ -185,7 +185,7 @@ const CustomerModal = ({ open, handleClose }: CustomerModalProps) => {
                 </FormControl>
                 <TextField
                   type="number"
-                  placeholder={cartState.documentNumber.toLocaleString()}
+                  placeholder={cartState.documentNumber?.toLocaleString()}
                   onChange={handleChangeNumber}
                   error={documentNumberError}
                 ></TextField>

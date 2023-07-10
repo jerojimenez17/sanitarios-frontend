@@ -52,6 +52,12 @@ const CartProvider = ({ children }: props) => {
       payload: product,
     });
   };
+  const setState = (cartState: CartState) => {
+    dispatch({
+      type: "setState",
+      payload: cartState,
+    });
+  };
   const removeAll = () => {
     dispatch({
       type: "removeAll",
@@ -129,6 +135,7 @@ const CartProvider = ({ children }: props) => {
     documentNumber: documentNumber,
     IVACondition: IVACondition,
     CAE: CAE,
+    setState: setState,
   };
   return <CartContext.Provider value={values}>{children}</CartContext.Provider>;
 };

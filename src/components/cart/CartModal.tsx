@@ -52,8 +52,8 @@ export default function TransitionsModal({
   open,
   handleClose,
 }: CartModalProps) {
-  const [counts, setCounts] = useState<CartState[] | null>([]);
   const [nameNewCount, setNameNewCount] = useState("");
+  const [counts, setCounts] = useState<CartState[] | null>([]);
   useEffect(() => {
     onSnapshot(collection(db, "sales"), (querySnapshot) => {
       const newSales = FirebaseAdapter.fromDocumentDataArray(
