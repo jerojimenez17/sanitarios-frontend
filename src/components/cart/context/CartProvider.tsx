@@ -18,7 +18,6 @@ const INITIAL_STATE: CartState = {
   typeDocument: "",
   documentNumber: 0,
   IVACondition: "Consumidor Final",
-  CAE: { CAE: "", vencimiento: "", nroComprobante: 0 },
 };
 
 interface props {

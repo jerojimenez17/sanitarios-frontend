@@ -55,8 +55,7 @@ function Cart() {
   };
   const handleGetAccount = () => {};
   useEffect(() => {
-    console.log(cartState?.CAE?.CAE);
-    if (cartState.CAE?.CAE !== "") {
+    if (cartState.CAE) {
       setPrint(true);
     } else {
       setPrint(false);

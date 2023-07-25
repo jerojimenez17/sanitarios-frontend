@@ -7,10 +7,11 @@ import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useContext } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Badge } from "@mui/material";
+import { Badge, Button, ButtonBase } from "@mui/material";
 import { CartContext } from "../cart/context/CartContext";
 import { Link } from "react-router-dom";
 import SwitchDarkMode from "../SwitchDarkMode";
+import { useTheme } from "@emotion/react";
 
 // const Search = styled("div")(({ theme }) => ({
 //   position: "relative",
@@ -80,6 +81,7 @@ export default function SearchAppBar({
   React.useEffect(() => {
     console.log(page);
   });
+  const theme = useTheme();
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="inherit">
@@ -109,17 +111,24 @@ export default function SearchAppBar({
             >
               <Link
                 to="products"
-                style={{ textDecoration: "none" }}
+                style={{ textDecoration: "none", color: "inherit" }}
                 onClick={() => {
                   handlePageChange("products");
                 }}
               >
-                <Typography
-                  variant="h6"
+                <Button
+                  variant="text"
+                  size="large"
                   color={page === "products" ? "primary" : "inherit"}
                 >
                   Productos
-                </Typography>
+                </Button>
+                {/* <Typography
+                  variant="h6"
+                  color={page === "products" ? "primary" : "midnightblue"}
+                >
+                  Productos
+                </Typography> */}
               </Link>
             </Box>
             <Box
@@ -129,18 +138,25 @@ export default function SearchAppBar({
               textAlign="center"
             >
               <Link
-                style={{ textDecoration: "none" }}
+                style={{ textDecoration: "none", color: "inherit" }}
                 to="counts"
                 onClick={() => {
                   handlePageChange("counts");
                 }}
               >
-                <Typography
-                  variant="h6"
+                <Button
+                  variant="text"
+                  size="large"
                   color={page === "counts" ? "primary" : "inherit"}
                 >
                   Cuentas
-                </Typography>
+                </Button>
+                {/* <Typography
+                  variant="h6"
+                  color={page === "counts" ? "primary" : "ButtonText"}
+                >
+                  Cuentas
+                </Typography> */}
               </Link>
             </Box>
           </Box>

@@ -1,7 +1,6 @@
 .App {
   text-align: center;
 }
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -64,7 +63,7 @@ demo-simple-select-helper{
 }
 
 .client-name:hover{
-  color: #61dafb;
+  color: #61a4fb;
 
 }
 .header-grid:hover{
@@ -94,7 +93,7 @@ demo-simple-select-helper{
 }
 .cart-row:nth-child(even){
   
-  background-color: #a2e1f2;
+  background-color: #00aeff;;
 }
 @page {
   size: A4;
@@ -106,11 +105,15 @@ demo-simple-select-helper{
   }
   .C{
     padding: 0.5rem 0.25rem 0.5rem 0.25rem;
-    display: block
+    display: block;
   }
   .CAE-container{
     display: flex;
+    border: #000000 solid;
      flex-direction: column;
+     
+    page-break-inside: avoid;
+    page-break-after: avoid;
   }
   .customer-container{
     display: block;
@@ -169,7 +172,19 @@ demo-simple-select-helper{
     display: flex;
   }
   .products-cart{
-    min-height: 60vh;
+    min-height: 50vh;
+    
+  }
+  .store-data{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: flex-end;
+  }
+  .date-container{
+    position:absolute;
+    top: 0;
+    right: 0;
   }
 }
 @media screen and (max-width:800px) {

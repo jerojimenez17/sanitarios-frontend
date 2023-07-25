@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { esES } from "@mui/x-data-grid";
 import { blue, pink } from "@mui/material/colors";
 import { Paper } from "@mui/material";
+import { inherits } from "util";
 
 function App() {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -33,6 +34,10 @@ function App() {
         primary: { main: blue[400] },
 
         secondary: { main: pink[400] },
+        action: {},
+        text: {
+          secondary: blue[400],
+        },
       },
     },
     esES // x-data-grid translations

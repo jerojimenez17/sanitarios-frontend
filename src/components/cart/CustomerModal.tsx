@@ -137,11 +137,6 @@ const CustomerModal = ({ open, handleClose }: CustomerModalProps) => {
             >
               <FormControl
                 color="primary"
-                sx={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "space-around",
-                }}
                 error={errorAmount || documentNumberError}
               >
                 <FormControl>

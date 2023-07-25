@@ -80,9 +80,8 @@ const PrinteableProducts = ({
   };
   return (
     <Box ref={reference ? reference : ref} className="printeable-cart">
-      
       <Box m={1} className="cart">
-        <Box display="flex">
+        <Box display="flex" flexDirection="column">
           <Box className="logo">
             <Typography
               variant="h4"
@@ -94,46 +93,68 @@ const PrinteableProducts = ({
             </Typography>
             {/* <img className="img-logo" alt="Jimenez Sanitarios" src={logo} /> */}
           </Box>
-
-          {cartState.CAE?.CAE !== "" && (
+          <Box className="date-container">
+            <Typography variant="body1" className="date">
+              Fecha:{fecha?.toLocaleDateString()} {fecha?.toLocaleTimeString()}
+            </Typography>
+          </Box>
+          {cartState.CAE && (
             <>
               <Box>
                 <Typography
                   variant="h4"
                   className="C"
-                  sx={{ border: "1px solid", margin: "1rem" }}
+                  sx={{
+                    position: "absolute",
+                    top: 10,
+                    right: "40%",
+                    border: "1px solid",
+                    margin: "1rem",
+                  }}
                 >
                   C
                 </Typography>
               </Box>
             </>
           )}
-          <div>
-            <Typography variant="h6" className="date">
-              Fecha:{fecha?.toLocaleDateString()} {fecha?.toLocaleTimeString()}
-            </Typography>
-            {cartState.CAE?.CAE !== "" && (
-              <>
-                <Typography className="document-container">
+          <div className="store-data">
+            {cartState.CAE && (
+              <Box mt={2}>
+                <Typography variant="body2" className="document-container">
                   CUIT del emisor: 20299735401{" "}
                 </Typography>
-                <Typography className="document-container">
-                  NRO Comprobante: {cartState.CAE?.nroComprobante}
+                <Typography variant="body2" className="document-container">
+                  Nombre o Razon Social: Matias Jimenez{" "}
                 </Typography>
-              </>
+                <Typography variant="body2" className="document-container">
+                  Inicio de Actividades: 01/01/2007{" "}
+                </Typography>
+                <Typography variant="body2" className="document-container">
+                  Domicilio: San Martin 189 Gral. Piran{" "}
+                </Typography>
+                <Typography variant="body2" className="document-container">
+                  Email: jimenezsanitarios@hotmail.com{" "}
+                </Typography>
+                <Typography variant="body2" className="document-container">
+                  Responsable Monotributo
+                </Typography>
+                <Typography variant="body2" className="document-container">
+                  NRO Comprobante: 0005-{cartState.CAE?.nroComprobante}
+                </Typography>
+              </Box>
             )}
             {(client !== "" || cartState.documentNumber > 0) && (
               <div className="customer-container">
-                <Typography className="customer" variant="h6">
+                <Typography className="customer" variant="body1">
                   Cliente: {client}
                 </Typography>
-                {cartState.CAE?.CAE !== "" && (
-                  <Typography variant="h6" className="document-container">
+                {cartState.CAE && (
+                  <Typography variant="body1" className="document-container">
                     {cartState.IVACondition}
                   </Typography>
                 )}
                 {Number(cartState.documentNumber) > 0 && (
-                  <Typography variant="h6" className="document-container">
+                  <Typography variant="body1" className="document-container">
                     {cartState.typeDocument}: {cartState.documentNumber}
                   </Typography>
                 )}
@@ -174,18 +195,20 @@ const PrinteableProducts = ({
                 id="filled-adornment"
                 onKeyDown={handleDiscount}
                 endAdornment={<InputAdornment position="end">%</InputAdornment>}
-                aria-describedby="filled-weight-helper-text"
+                aria-describedby="filled-weight-helper-info"
                 inputProps={{
                   "aria-label": "descuento",
                 }}
               />
-              <FormHelperText id="filled-weight-helper-text">
+              <FormHelperText id="filled-weight-helper-info">
                 Descuento
               </FormHelperText>
             </FormControl>
           ) : (
             <Box ml={2} mt={2}>
-              <Typography variant="h6">Descuento: {discountState}%</Typography>
+              <Typography variant="body1">
+                Descuento: {discountState}%
+              </Typography>
             </Box>
           )}
           <Box mt={2}>
@@ -220,7 +243,7 @@ const PrinteableProducts = ({
           </Box>
         </Box>
         <Divider />
-        {cartState.CAE?.CAE !== "" && (
+        {cartState.CAE && (
           <Box className="CAE-container">
             <Typography>CAE:{cartState.CAE?.CAE}</Typography>
             <Typography>
