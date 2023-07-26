@@ -119,7 +119,7 @@ export default function SearchAppBar({
                 <Button
                   variant="text"
                   size="large"
-                  color={page === "products" ? "primary" : "inherit"}
+                  color={page !== "counts" ? "primary" : "inherit"}
                 >
                   Productos
                 </Button>
