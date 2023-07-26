@@ -66,7 +66,10 @@ const CountsModal = ({ open, handleClose }: CountsModalProps) => {
               return (
                 <ListItemButton
                   sx={{ width: "100%" }}
-                  onClick={() => setState(sale)}
+                  onClick={() => {
+                    setState(sale);
+                    handleClose(true);
+                  }}
                 >
                   <Avatar sx={{ bgcolor: blue[500] }}>
                     <AssignmentIcon />
