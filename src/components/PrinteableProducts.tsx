@@ -83,20 +83,29 @@ const PrinteableProducts = ({
       <Box m={1} className="cart">
         <Box display="flex" flexDirection="column">
           <Box className="logo">
-            <Typography
+            {/* <Typography
               variant="h4"
               className="title-card"
               color="primary"
               ml={2}
             >
               Jimenez Sanitarios
-            </Typography>
-            {/* <img className="img-logo" alt="Jimenez Sanitarios" src={logo} /> */}
+            </Typography> */}
+            <img className="img-logo" alt="Jimenez Sanitarios" src={logo} />
           </Box>
           <Box className="date-container">
             <Typography variant="body1" className="date">
               Fecha:{fecha?.toLocaleDateString()} {fecha?.toLocaleTimeString()}
             </Typography>
+            {cartState.CAE && (
+              <Typography
+                variant="body1"
+                sx={{ marginTop: "2rem" }}
+                className="document-container"
+              >
+                Comprobante: 0005-{cartState.CAE?.nroComprobante}
+              </Typography>
+            )}
           </Box>
           {cartState.CAE && (
             <>
@@ -124,22 +133,16 @@ const PrinteableProducts = ({
                   CUIT del emisor: 20299735401{" "}
                 </Typography>
                 <Typography variant="body2" className="document-container">
+                  IIBB: 20299735401{" "}
+                </Typography>
+                <Typography variant="body2" className="document-container">
                   Nombre o Razon Social: Matias Jimenez{" "}
                 </Typography>
                 <Typography variant="body2" className="document-container">
                   Inicio de Actividades: 01/01/2007{" "}
                 </Typography>
                 <Typography variant="body2" className="document-container">
-                  Domicilio: San Martin 189 Gral. Piran{" "}
-                </Typography>
-                <Typography variant="body2" className="document-container">
-                  Email: jimenezsanitarios@hotmail.com{" "}
-                </Typography>
-                <Typography variant="body2" className="document-container">
                   Responsable Monotributo
-                </Typography>
-                <Typography variant="body2" className="document-container">
-                  NRO Comprobante: 0005-{cartState.CAE?.nroComprobante}
                 </Typography>
               </Box>
             )}
@@ -183,7 +186,7 @@ const PrinteableProducts = ({
           className="cart-total-container"
         >
           {edit ? (
-            <FormControl sx={{ m: 1, width: "20ch" }} variant="standard">
+            <FormControl variant="standard">
               {/* <TextField
                 variant="standard"
                 label="Cliente"
@@ -225,7 +228,7 @@ const PrinteableProducts = ({
                 color="primary"
                 mr={1}
               >
-                Total con Descuento: $
+                Final: $
                 {(
                   cartState.products.reduce(
                     (acc, cur) => acc + cur.price * cur.amount,
@@ -242,15 +245,33 @@ const PrinteableProducts = ({
             )}
           </Box>
         </Box>
-        <Divider />
         {cartState.CAE && (
           <Box className="CAE-container">
-            <Typography>CAE:{cartState.CAE?.CAE}</Typography>
-            <Typography>
-              Vencimiento del CAE: {cartState.CAE?.vencimiento}
-            </Typography>
+            <Box display="flex">
+              {cartState.qrData && (
+                <img
+                  style={{ maxHeight: "80px" }}
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&format=png&data="${cartState.qrData}`}
+                  alt=""
+                />
+              )}
+            </Box>
+            <Box display="flex" p={3}>
+              <Typography>CAE:{cartState.CAE?.CAE}</Typography>
+              <Typography>
+                Vencimiento del CAE: {cartState.CAE?.vencimiento}
+              </Typography>
+            </Box>
           </Box>
         )}
+        {cartState.CAE && cartState.IVACondition === "Consumidor Final" && (
+          <div className="final-paragraph">
+            El crédito fiscal discriminado en el presente comprobante, sólo
+            podrá ser computado a efectos del Régimen de Sostenimiento e
+            Inclusión Fiscal para Pequeños Contribuyentes de la Ley N°27.618
+          </div>
+        )}
+        <Divider />
       </Box>
     </Box>
   );

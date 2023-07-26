@@ -8,6 +8,7 @@ import {
   Divider,
   FormControl,
   Input,
+  InputLabel,
   MenuItem,
   Select,
   TextField,
@@ -49,9 +50,13 @@ const CustomerModal = ({ open, handleClose }: CustomerModalProps) => {
   const [emptyCart, setEmptyCart] = useState(false);
   const [response, setResponse] = useState<AfipResp>();
   const [errorAmount, setErrorAmount] = useState(false);
+  const [openConfirmation, setOpenConfirmation] = useState(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setOpenConfirmation(true);
+  };
+  const handleCreateBoucher = () => {
     postBill(cartState).then((resp: AfipResp) => {
       console.log(resp);
       CAE({
@@ -140,7 +145,16 @@ const CustomerModal = ({ open, handleClose }: CustomerModalProps) => {
                 error={errorAmount || documentNumberError}
               >
                 <FormControl>
+                  <InputLabel
+                    sx={{
+                      ml: 1,
+                      mt: 1,
+                    }}
+                  >
+                    Condicion IVA
+                  </InputLabel>
                   <Select
+                    sx={{ m: 1 }}
                     labelId="conditionIVASelect"
                     id="IVASelect"
                     value={cartState.IVACondition}
@@ -157,7 +171,9 @@ const CustomerModal = ({ open, handleClose }: CustomerModalProps) => {
                   </Select>
                 </FormControl>
                 <FormControl error={errorAmount || documentNumberError}>
+                  <InputLabel sx={{ ml: 1, mt: 1 }}>Tipo de Doc</InputLabel>
                   <Select
+                    sx={{ m: 1 }}
                     labelId="documentTypeSelect"
                     id="DocumentSelect"
                     value={
@@ -179,6 +195,7 @@ const CustomerModal = ({ open, handleClose }: CustomerModalProps) => {
                   </Select>
                 </FormControl>
                 <TextField
+                  sx={{ m: 1 }}
                   type="number"
                   placeholder={cartState.documentNumber?.toLocaleString()}
                   onChange={handleChangeNumber}
@@ -198,6 +215,37 @@ const CustomerModal = ({ open, handleClose }: CustomerModalProps) => {
         <DialogActions>
           <Button onClick={() => handleClose(false)} color="error">
             Cancelar
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openConfirmation}
+        onClose={() => setOpenConfirmation(false)}
+      >
+        <DialogContent>
+          Seguro quiere crear el siguiente comprobante?
+          <br />
+          {cartState.IVACondition}
+          <br />
+          {cartState.typeDocument}
+          <br />
+          Nro: {cartState.documentNumber}
+          <br />
+          Total:{" $"}
+          {cartState.products
+            .reduce((acc, cur) => acc + cur.price * cur.amount, 0)
+            .toFixed()}
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="text"
+            color="error"
+            onClick={() => setOpenConfirmation(false)}
+          >
+            Cancelar
+          </Button>
+          <Button variant="outlined" onClick={handleCreateBoucher}>
+            Aceptar
           </Button>
         </DialogActions>
       </Dialog>
