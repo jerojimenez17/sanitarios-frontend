@@ -80,60 +80,84 @@ const PrinteableProducts = ({
   };
   return (
     <Box ref={reference ? reference : ref} className="printeable-cart">
-      
       <Box m={1} className="cart">
-        <Box display="flex">
+        <Box display="flex" flexDirection="column">
           <Box className="logo">
-            <Typography
+            {/* <Typography
               variant="h4"
               className="title-card"
               color="primary"
               ml={2}
             >
               Jimenez Sanitarios
-            </Typography>
-            {/* <img className="img-logo" alt="Jimenez Sanitarios" src={logo} /> */}
+            </Typography> */}
+            <img className="img-logo" alt="Jimenez Sanitarios" src={logo} />
           </Box>
-
-          {cartState.CAE?.CAE !== "" && (
+          <Box className="date-container">
+            <Typography variant="body1" className="date">
+              Fecha:{fecha?.toLocaleDateString()} {fecha?.toLocaleTimeString()}
+            </Typography>
+            {cartState.CAE && (
+              <Typography
+                variant="body1"
+                sx={{ marginTop: "2rem" }}
+                className="document-container"
+              >
+                Comprobante: 0005-{cartState.CAE?.nroComprobante}
+              </Typography>
+            )}
+          </Box>
+          {cartState.CAE && (
             <>
               <Box>
                 <Typography
                   variant="h4"
                   className="C"
-                  sx={{ border: "1px solid", margin: "1rem" }}
+                  sx={{
+                    position: "absolute",
+                    top: 10,
+                    right: "40%",
+                    border: "1px solid",
+                    margin: "1rem",
+                  }}
                 >
                   C
                 </Typography>
               </Box>
             </>
           )}
-          <div>
-            <Typography variant="h6" className="date">
-              Fecha:{fecha?.toLocaleDateString()} {fecha?.toLocaleTimeString()}
-            </Typography>
-            {cartState.CAE?.CAE !== "" && (
-              <>
-                <Typography className="document-container">
+          <div className="store-data">
+            {cartState.CAE && (
+              <Box mt={2}>
+                <Typography variant="body2" className="document-container">
                   CUIT del emisor: 20299735401{" "}
                 </Typography>
-                <Typography className="document-container">
-                  NRO Comprobante: {cartState.CAE?.nroComprobante}
+                <Typography variant="body2" className="document-container">
+                  IIBB: 20299735401{" "}
                 </Typography>
-              </>
+                <Typography variant="body2" className="document-container">
+                  Nombre o Razon Social: Matias Jimenez{" "}
+                </Typography>
+                <Typography variant="body2" className="document-container">
+                  Inicio de Actividades: 01/01/2007{" "}
+                </Typography>
+                <Typography variant="body2" className="document-container">
+                  Responsable Monotributo
+                </Typography>
+              </Box>
             )}
             {(client !== "" || cartState.documentNumber > 0) && (
               <div className="customer-container">
-                <Typography className="customer" variant="h6">
+                <Typography className="customer" variant="body1">
                   Cliente: {client}
                 </Typography>
-                {cartState.CAE?.CAE !== "" && (
-                  <Typography variant="h6" className="document-container">
+                {cartState.CAE && (
+                  <Typography variant="body1" className="document-container">
                     {cartState.IVACondition}
                   </Typography>
                 )}
                 {Number(cartState.documentNumber) > 0 && (
-                  <Typography variant="h6" className="document-container">
+                  <Typography variant="body1" className="document-container">
                     {cartState.typeDocument}: {cartState.documentNumber}
                   </Typography>
                 )}
@@ -162,7 +186,7 @@ const PrinteableProducts = ({
           className="cart-total-container"
         >
           {edit ? (
-            <FormControl sx={{ m: 1, width: "20ch" }} variant="standard">
+            <FormControl variant="standard">
               {/* <TextField
                 variant="standard"
                 label="Cliente"
@@ -174,18 +198,20 @@ const PrinteableProducts = ({
                 id="filled-adornment"
                 onKeyDown={handleDiscount}
                 endAdornment={<InputAdornment position="end">%</InputAdornment>}
-                aria-describedby="filled-weight-helper-text"
+                aria-describedby="filled-weight-helper-info"
                 inputProps={{
                   "aria-label": "descuento",
                 }}
               />
-              <FormHelperText id="filled-weight-helper-text">
+              <FormHelperText id="filled-weight-helper-info">
                 Descuento
               </FormHelperText>
             </FormControl>
           ) : (
             <Box ml={2} mt={2}>
-              <Typography variant="h6">Descuento: {discountState}%</Typography>
+              <Typography variant="body1">
+                Descuento: {discountState}%
+              </Typography>
             </Box>
           )}
           <Box mt={2}>
@@ -202,7 +228,7 @@ const PrinteableProducts = ({
                 color="primary"
                 mr={1}
               >
-                Total con Descuento: $
+                Final: $
                 {(
                   cartState.products.reduce(
                     (acc, cur) => acc + cur.price * cur.amount,
@@ -219,15 +245,33 @@ const PrinteableProducts = ({
             )}
           </Box>
         </Box>
-        <Divider />
-        {cartState.CAE?.CAE !== "" && (
+        {cartState.CAE && (
           <Box className="CAE-container">
-            <Typography>CAE:{cartState.CAE?.CAE}</Typography>
-            <Typography>
-              Vencimiento del CAE: {cartState.CAE?.vencimiento}
-            </Typography>
+            <Box display="flex">
+              {cartState.qrData && (
+                <img
+                  style={{ maxHeight: "80px" }}
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&format=png&data="${cartState.qrData}`}
+                  alt=""
+                />
+              )}
+            </Box>
+            <Box display="flex" p={3}>
+              <Typography>CAE:{cartState.CAE?.CAE}</Typography>
+              <Typography>
+                Vencimiento del CAE: {cartState.CAE?.vencimiento}
+              </Typography>
+            </Box>
           </Box>
         )}
+        {cartState.CAE && cartState.IVACondition === "Consumidor Final" && (
+          <div className="final-paragraph">
+            El crédito fiscal discriminado en el presente comprobante, sólo
+            podrá ser computado a efectos del Régimen de Sostenimiento e
+            Inclusión Fiscal para Pequeños Contribuyentes de la Ley N°27.618
+          </div>
+        )}
+        <Divider />
       </Box>
     </Box>
   );

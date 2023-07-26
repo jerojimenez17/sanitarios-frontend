@@ -2,13 +2,13 @@ import { ProductionQuantityLimitsTwoTone } from "@mui/icons-material";
 import {
   Divider,
   Drawer,
-  Link,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Typography,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import React from "react";
 
@@ -25,7 +25,7 @@ const LeftDrawer = ({ open, onClose }: LeftDrawerProps) => {
       </Typography>
       <List>
         <Divider variant="middle" />
-        <Link href="/products" sx={{ textDecoration: "none" }}>
+        <Link to="/products" style={{ textDecoration: "none" }}>
           <ListItem>
             <ListItemIcon>
               <ProductionQuantityLimitsTwoTone color="success" />
@@ -39,7 +39,7 @@ const LeftDrawer = ({ open, onClose }: LeftDrawerProps) => {
         </Link>
         <Divider variant="middle" />
 
-        <Link href="/counts" sx={{ textDecoration: "none" }}>
+        <Link to="/counts" style={{ textDecoration: "none" }}>
           <ListItem>
             <ListItemIcon>
               <LocalLibraryIcon color="error" />

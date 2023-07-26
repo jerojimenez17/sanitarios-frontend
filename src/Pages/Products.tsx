@@ -76,13 +76,12 @@ const Products = ({ openCart }: ProductProps) => {
       >
         <TextField
           sx={{
-            display: "flex",
-            justifyContent: "flex-start",
             maxWidth: "25%",
             minWidth: "25%",
-            maxHeight: "60px",
-            height: "50px",
-            ml: 4,
+            maxHeight: "2rem",
+            height: "2rem",
+            ml: 2,
+            mb: 3,
           }}
           variant="outlined"
           label="Buscar"
@@ -93,22 +92,34 @@ const Products = ({ openCart }: ProductProps) => {
         <FormControl
           color="primary"
           sx={{
-            m: "2rem",
             minWidth: 200,
-            height: "1.25rem",
             display: "flex",
+            mt: 1,
             justifyContent: "center",
           }}
         >
-          <InputLabel color="primary" id="demo-simple-select-helper-label">
+          <InputLabel
+            color="primary"
+            sx={{
+              ml: 2,
+              mb: 1,
+            }}
+            id="demo-simple-select-helper-label"
+          >
             Listas
           </InputLabel>
           <Select
             color="primary"
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
+            labelId="lists-label"
+            id="list-selector"
             value={productsListName}
             variant="outlined"
+            sx={{
+              maxHeight: "40px",
+              height: "40px",
+              ml: 2,
+              mb: 1,
+            }}
             label="Listas"
             onChange={(e: any) => setProductListName(e.target.value)}
           >
