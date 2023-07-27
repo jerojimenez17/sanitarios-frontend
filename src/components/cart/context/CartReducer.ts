@@ -82,7 +82,6 @@ export const CartReducer = (
       return {
         ...state,
         products: [],
-        CAE: { CAE: "", vencimiento: "", nroComprobante: 0 },
         documentNumber: 0,
       };
     case "changePrice":
