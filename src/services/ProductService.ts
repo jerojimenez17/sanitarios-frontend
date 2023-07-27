@@ -4,7 +4,7 @@ import Product from "../models/Product";
 const fetchProducts = async (route: string) => {
   try {
     const response = await axios.get(
-      "https://https://sanitarios-backend-production-9972.up.railway.app/api/productos/" + route,
+      "https://sanitarios-backend-production-9972.up.railway.app/api/productos/" + route,
       {
         headers: {
           "Content-Type": "application/json",
