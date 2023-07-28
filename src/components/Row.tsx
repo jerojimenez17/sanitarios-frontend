@@ -19,7 +19,11 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Delete, Print, RefreshRounded } from "@mui/icons-material";
 import { useReactToPrint } from "react-to-print";
 import CartState from "../models/CartState";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import PrinteableProducts from "./PrinteableProducts";
+import { CashModal } from "./CashModal";
+import { db, setPago } from "../services/FireBase";
+import { addDoc, collection } from "firebase/firestore";
 
 interface rowProps {
   key: string;
@@ -43,10 +47,15 @@ const Row = ({
   loading,
 }: rowProps) => {
   const [open, setOpen] = useState(false);
+  const [openCashModal, setOpenCashModal] = useState(false);
   const ref = useRef(null);
   const handlePrint = useReactToPrint({
     content: () => ref.current,
   });
+  const handleAddToPaid = () => {
+    addDoc(collection(db, "paids"), row);
+    handleDeleteDoc(row);
+  };
   return (
     <>
       <TableRow key={key} sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -75,13 +84,21 @@ const Row = ({
         <TableCell align="center">
           <Typography variant="h6">
             $
-            {row?.products
-              ?.reduce(
-                (acc: number, cur: { price: number; amount: number }) =>
-                  acc + cur.price * cur.amount,
-                0
-              )
-              .toFixed()}
+            {row?.entrega != undefined
+              ? (
+                  row?.products?.reduce(
+                    (acc: number, cur: { price: number; amount: number }) =>
+                      acc + cur.price * cur.amount,
+                    0
+                  ) - row.entrega
+                ).toFixed()
+              : row?.products
+                  ?.reduce(
+                    (acc: number, cur: { price: number; amount: number }) =>
+                      acc + cur.price * cur.amount,
+                    0
+                  )
+                  .toFixed()}
           </Typography>
         </TableCell>
         <TableCell>
@@ -100,6 +117,23 @@ const Row = ({
               <Print />
             </IconButton>
           </Tooltip>
+          <Tooltip title={"Imprimir Pago"}>
+            <IconButton
+              onClick={() => {
+                setPago(row.id, true);
+                if (!open) {
+                  setOpen(!open);
+                }
+                setTimeout(() => {
+                  handlePrint();
+                  handleAddToPaid();
+                }, 300);
+              }}
+              color="success"
+            >
+              <Print />
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Borrar">
             <IconButton
               color="error"
@@ -108,6 +142,11 @@ const Row = ({
               }}
             >
               <Delete />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Entrega">
+            <IconButton onClick={() => setOpenCashModal(true)}>
+              <AttachMoneyIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Actualizar">
@@ -226,6 +265,11 @@ const Row = ({
           </Box>
         </DialogActions>
       </Dialog>
+      <CashModal
+        open={openCashModal}
+        handleClose={() => setOpenCashModal(false)}
+        row={row}
+      />
     </>
   );
 };

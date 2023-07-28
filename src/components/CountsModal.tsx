@@ -62,22 +62,28 @@ const CountsModal = ({ open, handleClose }: CountsModalProps) => {
                 onChange={(e) => setNameCount(e.target.value)}
               ></TextField>
             </ListItem>
-            {counts?.map((sale) => {
-              return (
-                <ListItemButton
-                  sx={{ width: "100%" }}
-                  onClick={() => {
-                    setState(sale);
-                    handleClose(true);
-                  }}
-                >
-                  <Avatar sx={{ bgcolor: blue[500] }}>
-                    <AssignmentIcon />
-                  </Avatar>
-                  <Typography ml={3}>{sale.client}</Typography>
-                </ListItemButton>
-              );
-            })}
+            {counts
+              ?.filter((sale) => {
+                return sale.client
+                  .toLocaleLowerCase()
+                  .includes(nameCount.toLowerCase());
+              })
+              .map((sale) => {
+                return (
+                  <ListItemButton
+                    sx={{ width: "100%" }}
+                    onClick={() => {
+                      setState(sale);
+                      handleClose(true);
+                    }}
+                  >
+                    <Avatar sx={{ bgcolor: blue[500] }}>
+                      <AssignmentIcon />
+                    </Avatar>
+                    <Typography ml={3}>{sale.client}</Typography>
+                  </ListItemButton>
+                );
+              })}
           </List>
           <Divider />
         </DialogContent>

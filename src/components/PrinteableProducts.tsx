@@ -161,6 +161,16 @@ const PrinteableProducts = ({
                     {cartState.typeDocument}: {cartState.documentNumber}
                   </Typography>
                 )}
+                {cartState.tipoFactura !== "C" && (
+                  <>
+                    <Typography variant="h5">
+                      {cartState.tipoFactura}
+                    </Typography>
+                    <Typography variant="body1">
+                      {cartState.CAE?.nroComprobante}
+                    </Typography>
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -228,7 +238,7 @@ const PrinteableProducts = ({
                 color="primary"
                 mr={1}
               >
-                Final: $
+                Tot. Descuento: $
                 {(
                   cartState.products.reduce(
                     (acc, cur) => acc + cur.price * cur.amount,
@@ -243,15 +253,21 @@ const PrinteableProducts = ({
                 ).toFixed()}
               </Typography>
             )}
+            {cartState.entrega !== undefined && cartState.entrega > 0 && (
+              <Typography>Entrega : {cartState.entrega}</Typography>
+            )}
+            {cartState.pago === true && (
+              <Typography variant="h4">Pago</Typography>
+            )}
           </Box>
         </Box>
         {cartState.CAE && (
           <Box className="CAE-container">
             <Box display="flex">
-              {cartState.qrData && (
+              {cartState.CAE.qrData && (
                 <img
                   style={{ maxHeight: "80px" }}
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&format=png&data="${cartState.qrData}`}
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&format=png&data="${cartState.CAE.qrData}`}
                   alt=""
                 />
               )}
