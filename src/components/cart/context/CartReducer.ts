@@ -17,8 +17,11 @@ type CartAction =
   | { type: "discount"; payload: number }
   | { type: "typeDocument"; payload: string }
   | { type: "documentNumber"; payload: number }
+  | { type: "entrega"; payload: number }
+  | { type: "nroAsociado"; payload: number }
   | { type: "clientName"; payload: string }
   | { type: "IVACondition"; payload: string }
+  | { type: "tipoFactura"; payload: string }
   | { type: "CAE"; payload: CAE }
   | { type: "setState"; payload: CartState };
 
@@ -82,8 +85,14 @@ export const CartReducer = (
       return {
         ...state,
         products: [],
-        CAE: { CAE: "", vencimiento: "", nroComprobante: 0 },
         documentNumber: 0,
+        CAE: undefined,
+        tipoFactura: "C",
+        client: "",
+        IVACondition: "Consumidor Final",
+        nroAsociado: 0,
+        pago: false,
+        typeDocument: "",
       };
     case "changePrice":
       return {
@@ -125,15 +134,31 @@ export const CartReducer = (
         ...state,
         client: action.payload,
       };
+    case "entrega":
+      return {
+        ...state,
+        entrega: action.payload,
+      };
     case "typeDocument":
       return {
         ...state,
         typeDocument: action.payload,
       };
+    case "tipoFactura":
+      return {
+        ...state,
+        tipoFactura: action.payload,
+      };
     case "documentNumber": {
       return {
         ...state,
         documentNumber: action.payload,
+      };
+    }
+    case "nroAsociado": {
+      return {
+        ...state,
+        nroAsociado: action.payload,
       };
     }
     case "IVACondition": {

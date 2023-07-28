@@ -12,5 +12,8 @@ export default interface CartState {
   documentNumber: number;
   IVACondition: string;
   CAE?: CAE;
-  qrData?: String;
+  entrega?: number;
+  pago?: boolean;
+  tipoFactura?: string;
+  nroAsociado?: number;
 }

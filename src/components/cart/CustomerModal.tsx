@@ -25,6 +25,8 @@ import { CartContext } from "./context/CartContext";
 import CartState from "../../models/CartState";
 import { postBill } from "../../services/AfipService";
 import AfipResp from "../../models/AfipResp";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../services/FireBase";
 
 interface CustomerModalProps {
   open: boolean;
@@ -43,8 +45,15 @@ const style = {
   p: 4,
 };
 const CustomerModal = ({ open, handleClose }: CustomerModalProps) => {
-  const { cartState, typeDocument, documentNumber, IVACondition, CAE } =
-    useContext(CartContext);
+  const {
+    cartState,
+    typeDocument,
+    documentNumber,
+    IVACondition,
+    CAE,
+    tipoFactura,
+    nroAsociado,
+  } = useContext(CartContext);
   const [documentNumberError, setDocumentNumberError] =
     useState<boolean>(false);
   const [emptyCart, setEmptyCart] = useState(false);
@@ -56,14 +65,18 @@ const CustomerModal = ({ open, handleClose }: CustomerModalProps) => {
     e.preventDefault();
     setOpenConfirmation(true);
   };
+  const collectionRef = collection(db, "AFIPvouchers");
   const handleCreateBoucher = () => {
-    postBill(cartState).then((resp: AfipResp) => {
+    postBill(cartState).then(async (resp: AfipResp) => {
       console.log(resp);
       CAE({
         CAE: resp.afip.CAE,
         vencimiento: resp.afip.CAEFchVto,
         nroComprobante: resp.nroCbte,
+        qrData: resp.qrData,
       });
+
+      await addDoc(collectionRef, cartState);
       setResponse(resp);
     });
   };
@@ -144,6 +157,40 @@ const CustomerModal = ({ open, handleClose }: CustomerModalProps) => {
                 color="primary"
                 error={errorAmount || documentNumberError}
               >
+                <InputLabel
+                  sx={{
+                    ml: 1,
+                    mt: 1,
+                  }}
+                >
+                  Tipo Factura
+                </InputLabel>
+                <Select
+                  sx={{ m: 1 }}
+                  labelId="conditionIVASelect"
+                  id="facturaSelect"
+                  value={cartState.tipoFactura}
+                  label="Tipo de factura"
+                  onChange={(e) => {
+                    tipoFactura(e.target.value);
+                  }}
+                  error={errorAmount || documentNumberError}
+                >
+                  <MenuItem value="C">C</MenuItem>
+                  <MenuItem value="Nota de credito">Nota de credito</MenuItem>
+                </Select>
+                {cartState.tipoFactura !== "C" && (
+                  <>
+                    <TextField
+                      sx={{ m: 1 }}
+                      type="number"
+                      value={cartState.nroAsociado}
+                      placeholder={cartState.nroAsociado?.toString()}
+                      onChange={(e) => nroAsociado(Number(e.target.value))}
+                      error={documentNumberError}
+                    ></TextField>
+                  </>
+                )}
                 <FormControl>
                   <InputLabel
                     sx={{

@@ -17,7 +17,10 @@ export default interface CartContextProps {
   clientName: (name: string) => void;
   typeDocument: (type: string) => void;
   documentNumber: (number: number) => void;
+  entrega: (number: number) => void;
+  nroAsociado: (number: number) => void;
   IVACondition: (condition: string) => void;
+  tipoFactura: (tipoFactura: string) => void;
   CAE: (cae: CAE) => void;
   setState: (cartState: CartState) => void;
 }
