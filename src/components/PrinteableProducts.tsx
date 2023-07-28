@@ -256,10 +256,8 @@ const PrinteableProducts = ({
             {cartState.entrega !== undefined && cartState.entrega > 0 && (
               <Typography>Entrega : {cartState.entrega}</Typography>
             )}
-            {cartState.pago === true && (
-              <Typography variant="h4">Pago</Typography>
-            )}
           </Box>
+          {/* {cartState.pago && <Typography variant="h4">Pago</Typography>} */}
         </Box>
         {cartState.CAE && (
           <Box className="CAE-container">
