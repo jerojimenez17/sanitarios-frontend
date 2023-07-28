@@ -82,6 +82,9 @@ const PaidCounts = () => {
         <CircularProgress sx={{ position: "fixed", top: "50%", left: "50%" }} />
       )}
       <TableContainer component={Paper}>
+        <Typography variant="h4" color="primary">
+          Cuentas Pagas
+        </Typography>
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
