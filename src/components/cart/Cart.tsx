@@ -16,9 +16,10 @@ import { addDoc, collection } from "firebase/firestore";
 import CartModal from "./CartModal";
 import CustomerModal from "./CustomerModal";
 import PrinteableProducts from "../PrinteableProducts";
-import { postBill } from "../../services/AfipService";
 import CountsModal from "../CountsModal";
 import ReceiptIcon from "@mui/icons-material/Receipt";
+import SourceIcon from "@mui/icons-material/Source";
+import VouchersModal from "../VouchersModal";
 // import JimenezLogo from "../../assets/logo";
 
 function Cart() {
@@ -39,6 +40,7 @@ function Cart() {
   const [openModal, setOpenModal] = useState(false);
   const [openCustomerModal, setOpenCustomerModal] = useState(false);
   const [openCountsModal, setOpenCountsModal] = useState(false);
+  const [openVouchersModal, setOpenVouchersModal] = useState(false);
 
   const collectionRef = collection(db, "sale");
   const handleSaveSale = () => {
@@ -130,6 +132,19 @@ function Cart() {
               <PeopleAltOutlined />
             </IconButton>
           </Tooltip>
+          <Tooltip title={"Facturas"}>
+            <IconButton
+              onClick={() => {
+                setOpenVouchersModal(!openVouchersModal);
+              }}
+              color="primary"
+              // onClickCapture={() => {
+              //   edit && setEdit(!edit);
+              // }}
+            >
+              <SourceIcon />
+            </IconButton>
+          </Tooltip>
 
           <Tooltip title={"Imprimir"}>
             <IconButton
@@ -153,6 +168,10 @@ function Cart() {
         <CountsModal
           open={openCountsModal}
           handleClose={() => setOpenCountsModal(false)}
+        />
+        <VouchersModal
+          open={openVouchersModal}
+          handleClose={() => setOpenVouchersModal(false)}
         />
       </Box>
     </Paper>

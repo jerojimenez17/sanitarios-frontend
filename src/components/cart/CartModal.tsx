@@ -82,7 +82,7 @@ export default function TransitionsModal({
         cartState.id = cartState.date.toLocaleDateString();
         await addDoc(collectionRef, cartState);
         removeAll();
-        clientName("");
+        setNameNewCount("");
         handleClose(!open);
       }
     }
@@ -116,25 +116,26 @@ export default function TransitionsModal({
                   onKeyDown={handleNewCount}
                 ></TextField>
               </ListItem>
-              {counts?.filter((count)=>{
-                    return count.client
-                  ?.toString()
-                  .toLocaleLowerCase()
-                  .includes(nameNewCount.toLowerCase())
-                       })
-                      .map((sale) => {
-                return (
-                  <ListItemButton
-                    sx={{ width: "100%" }}
-                    onClick={() => addProductsToCount(sale)}
-                  >
-                    <Avatar sx={{ bgcolor: blue[500] }}>
-                      <AssignmentIcon />
-                    </Avatar>
-                    <Typography ml={3}>{sale.client}</Typography>
-                  </ListItemButton>
-                );
-              })}
+              {counts
+                ?.filter((count) => {
+                  return count.client
+                    ?.toString()
+                    .toLocaleLowerCase()
+                    .includes(nameNewCount.toLowerCase());
+                })
+                .map((sale) => {
+                  return (
+                    <ListItemButton
+                      sx={{ width: "100%" }}
+                      onClick={() => addProductsToCount(sale)}
+                    >
+                      <Avatar sx={{ bgcolor: blue[500] }}>
+                        <AssignmentIcon />
+                      </Avatar>
+                      <Typography ml={3}>{sale.client}</Typography>
+                    </ListItemButton>
+                  );
+                })}
             </List>
             <Divider />
           </DialogContent>

@@ -5,4 +5,5 @@ export default interface AfipResp {
   };
   nroCbte: number;
   ptoVenta: string;
+  qrData: string;
 }

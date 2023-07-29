@@ -11,6 +11,7 @@ import { esES } from "@mui/x-data-grid";
 import { blue, pink } from "@mui/material/colors";
 import { Paper } from "@mui/material";
 import { inherits } from "util";
+import PaidCounts from "./Pages/PaidCounts";
 
 function App() {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -66,6 +67,7 @@ function App() {
                   element={<Products openCart={openCart} />}
                 />
                 <Route path="/counts" element={<Counts />} />
+                <Route path="/paidcounts" element={<PaidCounts />} />
                 <Route path="*" element={<Navigate to="/products" />} />
               </Routes>
             </BrowserRouter>

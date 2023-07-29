@@ -99,13 +99,16 @@ export default function SearchAppBar({
           </IconButton>
           <Box
             className="navigation"
-            sx={{ display: { xs: "none", lg: "flex" } }}
+            sx={{ display: { xs: "none", lg: "flex" }, gap: 2 }}
             justifyContent="space-between"
+            alignItems="center"
             width="14rem"
           >
             <Box
               display="flex"
-              borderBottom={page === "counts" ? "none" : "3px solid blue"}
+              borderBottom={
+                page === "products" || page === "" ? "2px solid blue" : "none"
+              }
               alignContent="center"
               alignItems="center"
             >
@@ -119,7 +122,9 @@ export default function SearchAppBar({
                 <Button
                   variant="text"
                   size="large"
-                  color={page !== "counts" ? "primary" : "inherit"}
+                  color={
+                    page === "products" || page === "" ? "primary" : "inherit"
+                  }
                 >
                   Productos
                 </Button>
@@ -150,6 +155,34 @@ export default function SearchAppBar({
                   color={page === "counts" ? "primary" : "inherit"}
                 >
                   Cuentas
+                </Button>
+                {/* <Typography
+                  variant="h6"
+                  color={page === "counts" ? "primary" : "ButtonText"}
+                >
+                  Cuentas
+                </Typography> */}
+              </Link>
+            </Box>
+            <Box
+              display="flex"
+              borderBottom={page === "paidcounts" ? "3px solid blue" : "none"}
+              alignContent="center"
+              textAlign="center"
+            >
+              <Link
+                style={{ textDecoration: "none", color: "inherit" }}
+                to="paidcounts"
+                onClick={() => {
+                  handlePageChange("paidcounts");
+                }}
+              >
+                <Button
+                  variant="text"
+                  size="large"
+                  color={page === "paidcounts" ? "primary" : "inherit"}
+                >
+                  Cuentas Pagas
                 </Button>
                 {/* <Typography
                   variant="h6"

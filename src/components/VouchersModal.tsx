@@ -25,12 +25,12 @@ interface CountsModalProps {
   open: boolean;
   handleClose: (value: React.SetStateAction<boolean>) => void;
 }
-const CountsModal = ({ open, handleClose }: CountsModalProps) => {
+const VouchersModal = ({ open, handleClose }: CountsModalProps) => {
   const [counts, setCounts] = useState<CartState[] | null>([]);
 
   const [nameCount, setNameCount] = useState("");
   useEffect(() => {
-    onSnapshot(collection(db, "sales"), (querySnapshot) => {
+    onSnapshot(collection(db, "AFIPvouchers"), (querySnapshot) => {
       const newSales = FirebaseAdapter.fromDocumentDataArray(
         querySnapshot.docs
       );
@@ -63,10 +63,9 @@ const CountsModal = ({ open, handleClose }: CountsModalProps) => {
               ></TextField>
             </ListItem>
             {counts
-              ?.filter((sale) => {
-                return sale.client
-                  .toLocaleLowerCase()
-                  .includes(nameCount.toLowerCase());
+              ?.sort((a, b) => a.date.getTime() - b.date.getTime())
+              .filter((sale) => {
+                return sale.documentNumber.toString() === nameCount;
               })
               .map((sale) => {
                 return (
@@ -80,7 +79,9 @@ const CountsModal = ({ open, handleClose }: CountsModalProps) => {
                     <Avatar sx={{ bgcolor: blue[500] }}>
                       <AssignmentIcon />
                     </Avatar>
-                    <Typography ml={3}>{sale.client}</Typography>
+                    <Typography ml={3}>
+                      {sale.date.toISOString()} {sale.documentNumber}
+                    </Typography>
                   </ListItemButton>
                 );
               })}
@@ -92,4 +93,4 @@ const CountsModal = ({ open, handleClose }: CountsModalProps) => {
   );
 };
 
-export default CountsModal;
+export default VouchersModal;

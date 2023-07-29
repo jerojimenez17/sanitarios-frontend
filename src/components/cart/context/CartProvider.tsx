@@ -18,6 +18,8 @@ const INITIAL_STATE: CartState = {
   typeDocument: "",
   documentNumber: 0,
   IVACondition: "Consumidor Final",
+  tipoFactura: "C",
+  pago: false,
 };
 
 interface props {
@@ -99,9 +101,21 @@ const CartProvider = ({ children }: props) => {
       payload: type,
     });
   };
+  const tipoFactura = (tipoFactura: string) => {
+    dispatch({
+      type: "tipoFactura",
+      payload: tipoFactura,
+    });
+  };
   const documentNumber = (number: number) => {
     dispatch({
       type: "documentNumber",
+      payload: number,
+    });
+  };
+  const nroAsociado = (number: number) => {
+    dispatch({
+      type: "nroAsociado",
       payload: number,
     });
   };
@@ -109,6 +123,12 @@ const CartProvider = ({ children }: props) => {
     dispatch({
       type: "IVACondition",
       payload: condition,
+    });
+  };
+  const entrega = (entrega: number) => {
+    dispatch({
+      type: "entrega",
+      payload: entrega,
     });
   };
   const CAE = (CAE: CAE) => {
@@ -134,6 +154,9 @@ const CartProvider = ({ children }: props) => {
     documentNumber: documentNumber,
     IVACondition: IVACondition,
     CAE: CAE,
+    tipoFactura: tipoFactura,
+    entrega: entrega,
+    nroAsociado: nroAsociado,
     setState: setState,
   };
   return <CartContext.Provider value={values}>{children}</CartContext.Provider>;

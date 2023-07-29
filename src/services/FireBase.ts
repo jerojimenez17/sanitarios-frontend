@@ -79,6 +79,40 @@ export const editProductAddUnit = async (productId: string, docId: string) => {
     console.error(err);
   }
 };
+export const addEntrega = async (docId: string, entrega: number) => {
+  const docRef = doc(db, "sales", docId);
+  try {
+    await runTransaction(db, async (transaction) => {
+      const sfDoc = await transaction.get(docRef);
+      if (!sfDoc.exists()) {
+        throw "Document doesn't exist";
+      }
+
+      transaction.update(docRef, {
+        entrega: entrega,
+      });
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const setPago = async (docId: string, pago: boolean) => {
+  const docRef = doc(db, "sales", docId);
+  try {
+    await runTransaction(db, async (transaction) => {
+      const sfDoc = await transaction.get(docRef);
+      if (!sfDoc.exists()) {
+        throw "Document doesn't exist";
+      }
+
+      transaction.update(docRef, {
+        pago: pago,
+      });
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 export const editProductLessUnit = async (productId: string, docId: string) => {
   const docRef = doc(db, "sales", docId);
