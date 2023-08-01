@@ -52,8 +52,8 @@ const PrinteableProducts = ({
   });
   useEffect(() => {
     const hoy = Date.now();
-    if (date) {
-      setFecha(date);
+    if (cartState.date !== undefined) {
+      setFecha(cartState.date);
     } else {
       setFecha(new Date(hoy));
     }
