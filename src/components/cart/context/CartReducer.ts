@@ -86,12 +86,11 @@ export const CartReducer = (
         ...state,
         products: [],
         documentNumber: 0,
-        CAE: undefined,
         tipoFactura: "C",
-        client: "",
         IVACondition: "Consumidor Final",
         nroAsociado: 0,
         pago: false,
+        entrega: 0,
         typeDocument: "",
       };
     case "changePrice":
@@ -176,13 +175,13 @@ export const CartReducer = (
     case "setState": {
       state = action.payload;
       return {
-	...state,
-      CAE:action.payload.CAE,
-      IVACondition:action.payload.IVACondition,
-      tipoFactura: action.payload.tipoFactura,
-      documentNumber:action.payload.documentNumber,
-      typeDocument:action.payload.typeDocument,
-     }
+        ...state,
+        CAE: action.payload.CAE,
+        IVACondition: action.payload.IVACondition,
+        tipoFactura: action.payload.tipoFactura,
+        documentNumber: action.payload.documentNumber,
+        typeDocument: action.payload.typeDocument,
+      };
     }
     default:
       return state;

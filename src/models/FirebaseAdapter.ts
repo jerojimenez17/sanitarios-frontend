@@ -10,7 +10,6 @@ export class FirebaseAdapter {
     data: DocumentData,
     dataId: string
   ): CartState {
-    console.log(data.date);
     return {
       id: dataId,
       products: data.products,
@@ -18,6 +17,11 @@ export class FirebaseAdapter {
       totalWithDiscount: data.totalWithDiscount,
       client: data.client,
       entrega: data.entrega,
+      IVACondition: data.IVACondition,
+      tipoFactura: data.tipoFactura,
+      documentNumber: data.documentNumber,
+      typeDocument: data.typeDocument,
+      CAE: data.CAE,
       date: new Date(
         data.date.seconds * 1000 + data.date.nanoseconds / 1000000000
       ),

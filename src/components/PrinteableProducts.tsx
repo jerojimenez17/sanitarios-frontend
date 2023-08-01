@@ -97,7 +97,7 @@ const PrinteableProducts = ({
             <Typography variant="body1" className="date">
               Fecha:{fecha?.toLocaleDateString()} {fecha?.toLocaleTimeString()}
             </Typography>
-            {cartState.CAE && (
+            {cartState.CAE?.CAE !== "" && (
               <Typography
                 variant="body1"
                 sx={{ marginTop: "2rem" }}
@@ -108,7 +108,7 @@ const PrinteableProducts = ({
               </Typography>
             )}
           </Box>
-          {cartState.CAE && (
+          {cartState.CAE?.CAE !== "" && (
             <>
               <Box>
                 <Typography
@@ -128,7 +128,7 @@ const PrinteableProducts = ({
             </>
           )}
           <div className="store-data">
-            {cartState.CAE && (
+            {cartState.CAE?.CAE !== "" && (
               <Box mt={2}>
                 <Typography variant="body2" className="document-container">
                   CUIT del emisor: 20299735401{" "}
@@ -152,7 +152,7 @@ const PrinteableProducts = ({
                 <Typography className="customer" variant="body1">
                   Cliente: {client}
                 </Typography>
-                {cartState.CAE && (
+                {cartState.CAE?.CAE !== "" && (
                   <Typography variant="body1" className="document-container">
                     {cartState.IVACondition}
                   </Typography>
@@ -260,10 +260,10 @@ const PrinteableProducts = ({
           </Box>
           {/* {cartState.pago && <Typography variant="h4">Pago</Typography>} */}
         </Box>
-        {cartState.CAE && (
+        {cartState.CAE?.CAE !== "" && (
           <Box className="CAE-container">
             <Box display="flex">
-              {cartState.CAE.qrData && (
+              {cartState.CAE?.qrData && (
                 <img
                   style={{ maxHeight: "80px" }}
                   src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&format=png&data="${cartState.CAE.qrData}`}
@@ -279,13 +279,14 @@ const PrinteableProducts = ({
             </Box>
           </Box>
         )}
-        {cartState.CAE && cartState.IVACondition === "Consumidor Final" && (
-          <div className="final-paragraph">
-            El crédito fiscal discriminado en el presente comprobante, sólo
-            podrá ser computado a efectos del Régimen de Sostenimiento e
-            Inclusión Fiscal para Pequeños Contribuyentes de la Ley N°27.618
-          </div>
-        )}
+        {cartState.CAE?.CAE !== "" &&
+          cartState.IVACondition === "Consumidor Final" && (
+            <div className="final-paragraph">
+              El crédito fiscal discriminado en el presente comprobante, sólo
+              podrá ser computado a efectos del Régimen de Sostenimiento e
+              Inclusión Fiscal para Pequeños Contribuyentes de la Ley N°27.618
+            </div>
+          )}
         <Divider />
       </Box>
     </Box>

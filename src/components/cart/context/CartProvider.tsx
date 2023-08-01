@@ -20,6 +20,8 @@ const INITIAL_STATE: CartState = {
   IVACondition: "Consumidor Final",
   tipoFactura: "C",
   pago: false,
+  entrega: 0,
+  CAE: { CAE: "", nroComprobante: 0, vencimiento: "", qrData: "" },
 };
 
 interface props {

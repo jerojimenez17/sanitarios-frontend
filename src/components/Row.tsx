@@ -84,7 +84,7 @@ const Row = ({
         <TableCell align="center">
           <Typography variant="h6">
             $
-            {row?.entrega != undefined
+            {row?.entrega !== undefined && row?.entrega !== 0
               ? (
                   row?.products?.reduce(
                     (acc: number, cur: { price: number; amount: number }) =>
