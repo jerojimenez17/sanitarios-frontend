@@ -103,7 +103,8 @@ const PrinteableProducts = ({
                 sx={{ marginTop: "2rem" }}
                 className="document-container"
               >
-                Comprobante: 0005-{cartState.CAE?.nroComprobante}
+                Comprobante: 0005-
+                {cartState.CAE?.nroComprobante.toString().padStart(8, "0")}
               </Typography>
             )}
           </Box>
