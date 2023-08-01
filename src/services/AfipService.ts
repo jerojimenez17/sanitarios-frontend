@@ -13,3 +13,14 @@ export const postBill = async (cartState: CartState) => {
     console.error(err);
   }
 };
+
+export const getRazonSocial = async (cuit: number) => {
+  try {
+    const response = await axios.get(`http://localhost:3002/api/afip/${cuit}`, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};

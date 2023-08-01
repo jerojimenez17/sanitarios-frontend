@@ -76,7 +76,6 @@ const CustomerModal = ({ open, handleClose }: CustomerModalProps) => {
         qrData: resp.qrData,
       });
 
-      await addDoc(collectionRef, cartState);
       setResponse(resp);
     });
   };
@@ -92,6 +91,9 @@ const CustomerModal = ({ open, handleClose }: CustomerModalProps) => {
     handleErrorProducts();
     handleErrorAmount();
     console.log(cartState.CAE?.CAE);
+    if (cartState.CAE) {
+      addDoc(collectionRef, cartState);
+    }
   }, [cartState]);
 
   const handleErrorAmount = () => {
