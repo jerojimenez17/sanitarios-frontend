@@ -91,7 +91,7 @@ const CustomerModal = ({ open, handleClose }: CustomerModalProps) => {
     handleErrorProducts();
     handleErrorAmount();
     console.log(cartState.CAE?.CAE);
-    if (cartState.CAE) {
+    if (cartState.CAE?.CAE !=="") {
       addDoc(collectionRef, cartState);
     }
   }, [cartState]);
