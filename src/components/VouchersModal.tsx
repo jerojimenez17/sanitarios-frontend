@@ -64,9 +64,6 @@ const VouchersModal = ({ open, handleClose }: CountsModalProps) => {
             </ListItem>
             {counts
               ?.sort((a, b) => a.date.getTime() - b.date.getTime())
-              .filter((sale) => {
-                return sale.documentNumber.toString() === nameCount;
-              })
               .map((sale) => {
                 return (
                   <ListItemButton

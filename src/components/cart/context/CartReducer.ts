@@ -175,7 +175,14 @@ export const CartReducer = (
     }
     case "setState": {
       state = action.payload;
-      return state;
+      return {
+	...state,
+      CAE:action.payload.CAE,
+      IVACondition:action.payload.IVACondition,
+      tipoFactura: action.payload.tipoFactura,
+      documentNumber:action.payload.documentNumber,
+      typeDocument:action.payload.typeDocument,
+     }
     }
     default:
       return state;
