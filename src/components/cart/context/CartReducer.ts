@@ -92,6 +92,7 @@ export const CartReducer = (
         pago: false,
         entrega: 0,
         typeDocument: "",
+  	CAE: { CAE: "", nroComprobante: 0, vencimiento: "", qrData: "" },
       };
     case "changePrice":
       return {
