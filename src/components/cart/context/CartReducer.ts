@@ -91,6 +91,7 @@ export const CartReducer = (
         nroAsociado: 0,
         pago: false,
         entrega: 0,
+	client:"",
         typeDocument: "",
   	CAE: { CAE: "", nroComprobante: 0, vencimiento: "", qrData: "" },
       };

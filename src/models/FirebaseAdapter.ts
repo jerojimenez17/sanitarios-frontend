@@ -21,6 +21,7 @@ export class FirebaseAdapter {
       tipoFactura: data.tipoFactura,
       documentNumber: data.documentNumber,
       typeDocument: data.typeDocument,
+      nroAsociado:data.nroAsociado,
       CAE: data.CAE,
       date: new Date(
         data.date.seconds * 1000 + data.date.nanoseconds / 1000000000

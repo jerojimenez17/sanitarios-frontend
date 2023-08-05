@@ -77,7 +77,7 @@ const VouchersModal = ({ open, handleClose }: CountsModalProps) => {
                       <AssignmentIcon />
                     </Avatar>
                     <Typography ml={3}>
-                      {sale.date.toISOString()} {sale.documentNumber}
+                      {sale.CAE?.nroComprobante}
                     </Typography>
                   </ListItemButton>
                 );

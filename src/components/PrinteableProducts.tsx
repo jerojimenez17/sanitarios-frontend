@@ -98,6 +98,7 @@ const PrinteableProducts = ({
               Fecha:{fecha?.toLocaleDateString()} {fecha?.toLocaleTimeString()}
             </Typography>
             {cartState.CAE?.CAE !== "" && (
+	     <>
               <Typography
                 variant="body1"
                 sx={{ marginTop: "2rem" }}
@@ -106,7 +107,17 @@ const PrinteableProducts = ({
                 Comprobante: 0005-
                 {cartState.CAE?.nroComprobante.toString().padStart(8, "0")}
               </Typography>
-            )}
+
+      	      <Typography variant="body1">
+
+      		      {cartState.tipoFactura}
+      	     </Typography>
+             {(cartState.nroAsociado &&cartState.nroAsociado !==0) && (    	      <Typography variant="body1">
+
+                 		     Comprobante Asociado: {cartState.nroAsociado}
+                 	     </Typography>) }
+           </>
+	)}
           </Box>
           {cartState.CAE?.CAE !== "" && (
             <>
@@ -152,7 +163,7 @@ const PrinteableProducts = ({
                 <Typography className="customer" variant="body1">
                   Cliente: {client}
                 </Typography>
-                {cartState.CAE?.CAE !== "" && (
+                {(cartState.CAE?.CAE !== "" && cartState.documentNumber===0) && (
                   <Typography variant="body1" className="document-container">
                     {cartState.IVACondition}
                   </Typography>
@@ -161,16 +172,6 @@ const PrinteableProducts = ({
                   <Typography variant="body1" className="document-container">
                     {cartState.typeDocument}: {cartState.documentNumber}
                   </Typography>
-                )}
-                {cartState.tipoFactura !== "C" && (
-                  <>
-                    <Typography variant="h5">
-                      {cartState.tipoFactura}
-                    </Typography>
-                    <Typography variant="body1">
-                      {cartState.CAE?.nroComprobante}
-                    </Typography>
-                  </>
                 )}
               </div>
             )}
