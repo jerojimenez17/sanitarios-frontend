@@ -117,7 +117,7 @@ const PaidCounts = () => {
               ?.sort((a, b) => a.date.getTime() - b.date.getTime())
               ?.map((row) => (
                 <Row
-                  key={row.id}
+                  key={row.id + Math.random()}
                   row={row}
                   handleDeleteDoc={handleDelete}
                   handleOpenDeleteModal={handleOpenDeleteModal}

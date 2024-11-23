@@ -84,7 +84,7 @@ const CartItems = ({
         </TableHead>
 
         {products.map((producto: Product, id: number) => (
-          <TableRow key={producto.id} className="cart-row">
+          <TableRow key={producto.id} className="cart-row" sx={{height:"1rem"}}>
             <TableCell className="description">
               {producto.description}
             </TableCell>
@@ -135,7 +135,7 @@ const CartItems = ({
                   <IconButton
                     size="small"
                     onClick={() => lessUnitFB(producto.id, documentId)}
-                    color="primary"
+                    color="secondary"
                     aria-label="removeUnit"
                   >
                     <RemoveCircle />
@@ -166,7 +166,7 @@ const CartItems = ({
                   </IconButton>
                   <IconButton
                     size="small"
-                    color="primary"
+                    color="secondary"
                     aria-label="removeUnit"
                     onClick={() => handleRemoveUnit(producto)}
                   >

@@ -72,6 +72,7 @@ function Cart() {
     <Paper className="itemCart">
       <Box>
         <PrinteableProducts
+	  date={cartState.date!== new Date()? cartState.date : new Date(Date.now())}
           print={print}
           edit={edit}
           products={cartState.products}

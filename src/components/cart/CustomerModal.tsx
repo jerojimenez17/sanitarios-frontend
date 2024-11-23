@@ -77,6 +77,8 @@ const CustomerModal = ({ open, handleClose }: CustomerModalProps) => {
       });
 
       setResponse(resp);
+      setOpenConfirmation(false);
+      handleClose(false);
     });
   };
   const handleErrorProducts = () => {
@@ -102,7 +104,7 @@ const CustomerModal = ({ open, handleClose }: CustomerModalProps) => {
       cartState.products.reduce(
         (acc, cur) => acc + cur.price * cur.amount,
         0
-      ) >= 61534
+      ) >= 90000
     ) {
       setErrorAmount(true);
     } else {

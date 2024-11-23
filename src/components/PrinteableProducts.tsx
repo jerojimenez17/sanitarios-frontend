@@ -52,7 +52,8 @@ const PrinteableProducts = ({
   });
   useEffect(() => {
     const hoy = Date.now();
-    if (cartState.date !== undefined) {
+    
+    if (cartState.date !== new Date(hoy)) {
       setFecha(cartState.date);
     } else {
       setFecha(new Date(hoy));
@@ -95,7 +96,7 @@ const PrinteableProducts = ({
           </Box>
           <Box className="date-container">
             <Typography variant="body1" className="date">
-              Fecha:{fecha?.toLocaleDateString()} {fecha?.toLocaleTimeString()}
+              Fecha:{date?.toLocaleDateString()} {date?.toLocaleTimeString()}
             </Typography>
             {cartState.CAE?.CAE !== "" && (
 	     <>
@@ -163,11 +164,7 @@ const PrinteableProducts = ({
                 <Typography className="customer" variant="body1">
                   Cliente: {client}
                 </Typography>
-                {(cartState.CAE?.CAE !== "" && cartState.documentNumber===0) && (
-                  <Typography variant="body1" className="document-container">
-                    {cartState.IVACondition}
-                  </Typography>
-                )}
+               
                 {Number(cartState.documentNumber) > 0 && (
                   <Typography variant="body1" className="document-container">
                     {cartState.typeDocument}: {cartState.documentNumber}
@@ -175,6 +172,11 @@ const PrinteableProducts = ({
                 )}
               </div>
             )}
+ {(cartState.CAE?.CAE !== "" && cartState.documentNumber===0) && (
+                  <Typography variant="body1" className="document-container">
+                    {cartState.IVACondition}
+                  </Typography>
+                )}
           </div>
         </Box>
 
@@ -194,7 +196,7 @@ const PrinteableProducts = ({
           display="flex"
           flexDirection="row"
           justifyContent="space-between"
-          mt={2}
+          mt={0}
           className="cart-total-container"
         >
           {edit ? (
@@ -263,11 +265,11 @@ const PrinteableProducts = ({
         </Box>
         {cartState.CAE?.CAE !== "" && (
           <Box className="CAE-container">
-            <Box display="flex">
+            <Box display="flex" sx={{ height: "140px",width: "140px" }}>
               {cartState.CAE?.qrData && (
                 <img
-                  style={{ maxHeight: "80px" }}
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&format=png&data="${cartState.CAE.qrData}`}
+                  style={{ height: "140px",width: "140px" }}
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&format=png&data=${cartState.CAE.qrData}`}
                   alt=""
                 />
               )}

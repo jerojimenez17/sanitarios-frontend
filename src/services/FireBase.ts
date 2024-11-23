@@ -172,22 +172,25 @@ export const addProductsToClient = async (
       produ = sfDoc.data().products;
     });
 
-    console.log(docRef);
-    newProducts.forEach((newProduct) => {
+    newProducts.forEach(async (newProduct) => {
       const find = produ.find(
         (product) => product.description === newProduct.description
       );
       if (find) {
+
         const index = produ.indexOf(find);
         produ[index].amount =
           Number(produ[index].amount) + Number(newProduct.amount);
-        updateDoc(docRef, {
+        await updateDoc(docRef, {
           products: produ,
         });
       } else {
-        updateDoc(docRef, {
-          products: arrayUnion(newProduct),
-        });
+        setTimeout(() => {
+          updateDoc(docRef, {
+            products: arrayUnion(newProduct),
+          });
+        }, 400);
+
       }
     });
   } catch (error) {

@@ -85,6 +85,7 @@ export const CartReducer = (
       return {
         ...state,
         products: [],
+        date: new Date(),
         documentNumber: 0,
         tipoFactura: "C",
         IVACondition: "Consumidor Final",

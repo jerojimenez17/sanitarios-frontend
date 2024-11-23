@@ -71,6 +71,7 @@ const CountsModal = ({ open, handleClose }: CountsModalProps) => {
               .map((sale) => {
                 return (
                   <ListItemButton
+		    key={sale.id + Math.random()}
                     sx={{ width: "100%" }}
                     onClick={() => {
                       setState(sale);

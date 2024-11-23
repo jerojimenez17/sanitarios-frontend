@@ -19,6 +19,7 @@ const INITIAL_STATE: CartState = {
   documentNumber: 0,
   IVACondition: "Consumidor Final",
   tipoFactura: "C",
+  nroAsociado:0,
   pago: false,
   entrega: 0,
   CAE: { CAE: "", nroComprobante: 0, vencimiento: "", qrData: "" },

@@ -114,7 +114,7 @@ const Counts = () => {
               ?.sort((a, b) => a.date.getTime() - b.date.getTime())
               ?.map((row) => (
                 <Row
-                  key={row.id}
+                  key={row.id + Math.random().toString()}
                   row={row}
                   handleDeleteDoc={handleDelete}
                   handleOpenDeleteModal={handleOpenDeleteModal}
